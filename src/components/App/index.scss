@@ -1,0 +1,135 @@
+@mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65,0,.076,1)) {
+  transition: $property $duration $ease;
+}
+
+#root { height: 100%}
+
+.wrap {
+  display:  flex;
+
+  height: 500px;
+}
+
+.DayPicker {
+  font-family: Colus, sans-serif;
+  outline: none;
+
+  &-NavButton {
+    outline: none;
+  }
+
+  &-Monts {
+    outline: none;
+  }
+
+  &-wrapper {
+    border: 4px solid #9ca6ab;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  &-Body {
+    background: white;
+  }
+
+  &-Day {
+
+    &:focus {
+      outline: none;
+    }
+
+    &--active {
+      background-color: #000000;
+      color: white;
+    }
+
+    &--holiday {
+      background-color: orange;
+      color: white;
+    }
+
+    &--past {
+      background-color: #7146ff;
+      color: white;
+    }
+
+    &--selected {
+
+    }
+  }
+}
+
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  height: 30px;
+  max-width: 100%;
+  width: 26px;
+  margin-left: 3px;
+  border: 1px solid white;
+  border-radius: 3px;
+  @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
+
+  &__plus{
+    margin-left: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    max-width: 100%;
+    width: 20px;
+    background: #8b9898;
+    cursor: pointer;
+    box-sizing: border-box;
+    clip-path: polygon(0 37.5%, 37.5% 37.5%, 37.5% 0, 62.5% 0, 62.5% 37.5%, 99% 37.5%, 99% 62.5%, 62.5% 62.5%, 62.5% 99%, 37.5% 99%, 37.5% 62.5%,0 62.5%);
+    @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
+
+    &:hover {
+      background: #000000;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__title {
+    position: absolute;
+    font-size: 11px;
+    font-family: Colus, sans-serif;
+    width: 106px;
+    left: 30px;
+    right: 0;
+    margin: auto;
+    color: white;
+    pointer-events: none;
+    visibility: hidden;
+
+  }
+  &:hover {
+    width: 145px;
+    border: 1px solid #9ca6ab;
+    cursor: pointer;
+
+    .button__plus {
+      transform: rotate(90deg);
+      transition: transform 1s;
+      background: black;
+    }
+
+    .button__title {
+      color: black;
+      visibility: visible;
+      @include transition(all, 0.8s, cubic-bezier(0.65,0,.076,1));
+    }
+  }
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+
+

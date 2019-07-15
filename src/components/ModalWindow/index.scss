@@ -1,0 +1,30 @@
+.container {
+  width: 500px;
+  border-radius: 3px;
+  background: white;
+  //min-height: 17px;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  box-sizing: border-box;
+  resize: none;
+  line-height: 24px;
+  overflow: auto;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  height: 100px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover .control {
+    visibility: visible;
+  }
+}
+
+.button-add {
+  height: 25px;
+  width: 80px;
+  background: #3d53de;
+  color: white;
+}

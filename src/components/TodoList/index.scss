@@ -1,0 +1,13 @@
+.container-task {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 300px;
+  width: 500px;
+  border: 1px solid black;
+  background: #8b9898;
+}
+.button-remove {
+  width: 100px;
+  height: 20px;
+  background: red;
+}
