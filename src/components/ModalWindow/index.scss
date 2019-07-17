@@ -1,17 +1,25 @@
+.wrap-textArea {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  background: #e3e9ff;
+  width: 374px;
+  box-shadow: 0 4px 10px -8px black;
+  padding-top: 10px;
+  border-radius: 19px;
+}
+
 .container {
-  width: 500px;
-  border-radius: 3px;
-  background: white;
-  //min-height: 17px;
-  border: 1px solid #ccc;
-  max-height: 150px;
   box-sizing: border-box;
+  border: none;
+  border-radius: 3px;
   resize: none;
+  font-size: 20px;
   line-height: 24px;
   overflow: auto;
-  padding: 0 10px;
-  margin-bottom: 10px;
-  height: 100px;
+  height: auto;
+  width: 94%;
 
   &:focus {
     outline: none;
@@ -23,8 +31,17 @@
 }
 
 .button-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-family: Colus, sans-serif;
+  font-size: 11px;
   width: 80px;
-  background: #3d53de;
+  background: radial-gradient(circle farthest-corner at 2px 4px, #a8e3e9, #af7eeb );
   color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

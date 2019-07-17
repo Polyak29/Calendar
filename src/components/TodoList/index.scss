@@ -1,13 +1,79 @@
-.container-task {
+@mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65,0,.076,1)) {
+  transition: $property $duration $ease;
+}
+
+.container-todo {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-flow: column nowrap;
-  height: 300px;
-  width: 500px;
-  border: 1px solid black;
-  background: #8b9898;
+  width: 374px;
+  background: #e3e9ff;
+  padding:0;
+  border-radius: 19px;
+
+  &__list {
+    width: 90%;
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    flex-flow: column nowrap;
+    border-radius: 8px;
+    background: #e3e9ff;
+  }
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 8px;
+  background: white;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb );
+
+  }
+
+  &__icon {
+    margin: 5px;;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 16px;
+    max-width: 16px;
+    border: 1px solid #af83eb;
+    border-radius: 50%;
+    flex: 1 0 0;
+    font-size: 12px;
+    color: white;
+    background: white;
+
+  }
+
+  &__content {
+    flex: 4 0 0;
+    margin: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+  }
+
+  &__button-remove {
+    flex: 1 0 0;
+    color: red;
+    max-width: 20px;
+    @include transition(all, 0.3s, cubic-bezier(0.65,0,.076,1));
+
+    &:hover {
+      transform: rotate(15deg);
+    }
+  }
 }
-.button-remove {
-  width: 100px;
-  height: 20px;
-  background: red;
+
 }
+
+
