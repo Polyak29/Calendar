@@ -30,15 +30,27 @@ class TodoList extends React.Component<IProps> {
     styleInput: {}
   };
 
-  onChangeCheckBox = (isCompleted:boolean, id: number, event:any) => {
+  onChangeCheckBox = (isCompleted:boolean, id: number) => {
     const { onChangeIsCompleted, day } = this.props;
-    console.log(event.which, event.nativeEvent.which);
+
     onChangeIsCompleted(isCompleted, day, id)
   };
 
+  onContextMenu = (event:any) => {
+    event.preventDefault(); //убрать контекстное меню дефолтное
+
+};
+
+  renderContextMenu () {
+    return (
+      <div className={'context-menu'}>
+
+      </div>
+    )
+  }
+
   renderTask() {
     const { content, handleClickRemoveTask, day } = this.props;
-
     const styleIcon:object = {
       background: 'radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb )'
     };
@@ -62,7 +74,11 @@ class TodoList extends React.Component<IProps> {
             </div>
             <p className={'task__content'}
                onClick={this.onChangeCheckBox.bind(this, value.isCompleted, value.id)}
-               style={value.isCompleted ? styleContent : {}}>{value.content}</p>
+               style={value.isCompleted ? styleContent : {}}
+               onContextMenu={this.onContextMenu}
+            >
+              {value.content}
+            </p>
             <i
               className="far fa-trash-alt task__button-remove"
               onClick={handleClickRemoveTask.bind(this,day, value.id)}

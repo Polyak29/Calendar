@@ -88,7 +88,6 @@ position: relative;
   &-Day {
     flex-flow: column;
 
-
     &--selected {
       box-sizing: border-box;
       @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
@@ -106,13 +105,19 @@ position: relative;
       color: red!important;
     }
     &--daysWithTask {
-
       border-radius: 10px!important;
       @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
 
       &:hover {
-        box-shadow: inset 0px 36px 4px 17px white!important;
+        box-shadow: inset 0 36px 4px 17px white!important;
         color: #986ccb;
+      }
+
+      &--daysWithDoneTask{
+        &:hover {
+          box-shadow: inset 0 36px 4px 17px white!important;
+          color: #986ccb;
+        }
       }
     }
 

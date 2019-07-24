@@ -1,0 +1,18 @@
+[
+  {
+    "day": "15.07.2019",
+    "isCompleted": false,
+    "task": [
+      {
+        "content": "Встреча с коллегой",
+        "id": "1923",
+        "isCompleted": false
+      },
+      {
+        "content": "Бассейн",
+        "id": "1543",
+        "isCompleted": false
+      }
+    ]
+  }
+]

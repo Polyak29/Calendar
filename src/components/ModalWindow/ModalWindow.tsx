@@ -1,29 +1,21 @@
 import './index.scss';
 import * as React from "react";
 import {string} from "prop-types";
+import {listTask} from "../../helpers/interfaces";
+import DraftEditor from "../DraftEditor/DraftEditor";
 
 interface IProps {
-  listTask: {
-    day: Date,
-    task: {id:number, task:string[]}
-  } [],
+  listTasks:listTask[],
   onChangeText: (event:any) => void,
   handleClickAddTask: (event:any) => void,
   minRows: number,
   maxRows: number,
   rows: number,
-  isAddingTask:boolean
-}
-
-interface IState {
-  value:string,
-  rows:number,
-  minRows: number,
-  maxRows: number,
+  isAddingTask:boolean,
 }
 
 class ModalWindow extends React.Component<IProps> {
-  public textArea:any = React.createRef<HTMLDivElement>();
+  textArea:any = React.createRef<HTMLDivElement>();
 
   constructor(props:any) {
   super(props);
@@ -31,7 +23,7 @@ class ModalWindow extends React.Component<IProps> {
 }
 
   static defaultProps: Partial<IProps> = {
-    listTask: [],
+    listTasks: [],
     onChangeText: () => string,
     handleClickAddTask: () => [],
     minRows: 4,
@@ -39,20 +31,6 @@ class ModalWindow extends React.Component<IProps> {
     rows: 5,
     isAddingTask: false,
   };
-
-  public state: IState = {
-    value: '',
-    rows: 3,
-    minRows: 3,
-    maxRows: 10
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps:any) {
-    const {value} = this.state;
-    if (nextProps.textValue !== value) {
-      this.setState({value: nextProps.textValue});
-    }
-  }
 
   get lineHeight() {
     if (window.getComputedStyle(this.textArea.current) === null) {
@@ -64,7 +42,7 @@ class ModalWindow extends React.Component<IProps> {
   handleChange = (event:any) => {
   const textareaLineHeight = this.lineHeight;
   const { onChangeText } = this.props;
-  const { minRows, maxRows } =this.state;
+  const { minRows, maxRows } =this.props;
   const previousRows = event.target.rows;
   const value = event.target.value;
 
@@ -80,37 +58,27 @@ class ModalWindow extends React.Component<IProps> {
     event.target.rows = maxRows;
     event.target.scrollTop = event.target.scrollHeight;
   }
-
-  this.setState({
-    value: event.target.value,
-    rows: currentRows < maxRows ? currentRows : maxRows
-  });
     onChangeText(value);
 };
 
   handleKeyPress = (event:any) => {
     const {handleClickAddTask} = this.props;
+
     if(event.key === 'Enter'){
       handleClickAddTask(event);
     }
-  }
+  };
 
   public render() {
     const {isAddingTask, handleClickAddTask} = this.props;
+
     if (!isAddingTask) {
       return null;
     }
 
     return (
       <div className={'wrap-textArea'}>
-         <textarea
-           ref={this.textArea}
-           rows={this.props.rows}
-           value={this.state.value}
-           className={'container'}
-           onChange={this.handleChange}
-           onKeyPress={this.handleKeyPress}
-         />
+        <DraftEditor />
         <div className={'button-add'} onClick={handleClickAddTask} >Добавить</div>
       </div>
     )
