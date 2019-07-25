@@ -44,17 +44,12 @@ class App extends React.Component<IProps> {
 
   componentDidMount(): void {
     const { initLoad, selectedDay } = this.props;
-    const id = new Date(2019, 6, 15).toLocaleDateString();
-    console.log(id);
-    if('15.07.2019' === id) {
-      console.log('++');
-    }
 
-    initLoad(id);
+    initLoad(selectedDay.toLocaleDateString());
   }
 
-  public idOfDate = (day: Date) => {
-    return day.toLocaleDateString().replace(/\./g, '');
+  public idOfDate = (day: string) => {
+    return day.replace(/\./g, '');
   };
 
 
@@ -86,7 +81,7 @@ class App extends React.Component<IProps> {
       tempDayIsSelected = true;
     }
 
-    data.selectedDay = tempSelectedDay.toLocaleDateString();
+    data.selectedDay = tempSelectedDay;
     data.dayIsSelected = tempDayIsSelected;
     data.isAddingTask = isAddingTask ? false : isAddingTask;
     selectDay(data);
@@ -145,7 +140,7 @@ class App extends React.Component<IProps> {
         return (
           <TodoList
             handleClickRemoveTask={this.handleClickRemoveTask}
-            key={+this.idOfDate(element.day)}
+            key={+this.idOfDate(element.day.toLocaleDateString())}
             day={element.day}
             content={element.task}
             onChangeIsCompleted={this.onChangeIsCompleted}
@@ -177,7 +172,7 @@ class App extends React.Component<IProps> {
     };
 
     tempListTasks.map((value: any) => {
-      if (value.day.toLocaleDateString() === day.toLocaleDateString()) {
+      if (value.day === day) {
         const element = value.task.find((value:any) => value.id === id);
         const index = value.task.indexOf(element);
 
@@ -185,12 +180,12 @@ class App extends React.Component<IProps> {
 
         if (value.task.length === 0) {
           const arrayString = tempDaysWithTask.map((value:Date) => {return value.toLocaleDateString()})
-          const index = arrayString.indexOf(day.toLocaleDateString());
+          const index = arrayString.indexOf(day);
 
           tempDaysWithTask.splice(index, 1);
 
           const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()})
-          const index2 = arrayString2.indexOf(day.toLocaleDateString());
+          const index2 = arrayString2.indexOf(day);
 
           tempDaysWithDoneTask.splice(index2, 1);
         }
@@ -211,7 +206,7 @@ class App extends React.Component<IProps> {
       daysWithTask: [],
       dayIsSelected: boolean,
       isAddingTask: boolean,
-      listTasks:[],
+      listTasks:listTask[],
       content: string
     } ={
       daysWithTask: [],
@@ -228,7 +223,7 @@ class App extends React.Component<IProps> {
         task: [{content:content, id: randomNumber(), isCompleted: false}]
       });
     } else {
-      const element = tempListTasks.find((value:any) => (value.day.toLocaleDateString() === selectedDay.toLocaleDateString()));
+      const element = tempListTasks.find((value:any) => (value.day === selectedDay));
 
       if (element) {
         if (element.task) {
@@ -257,7 +252,7 @@ class App extends React.Component<IProps> {
       const arrayString = tempDaysWithTask.map((value:Date)=> {
         return value.toLocaleDateString();
       });
-      const index = arrayString.indexOf(selectedDay.toLocaleDateString());
+      const index = arrayString.indexOf(selectedDay);
 
       if(index === -1) {
         dayIsSelected = true;
@@ -320,6 +315,7 @@ class App extends React.Component<IProps> {
 
   public render() {
     const { selectedDay, isAddingTask, listTasks, daysWithTask, daysWithDoneTask } = this.props;
+
     const modifiers = {
         daysWithTask: daysWithTask,
         selectedDay: selectedDay,

@@ -7,7 +7,8 @@ import {
   onChangeText,
   onChangeIsCompleted,
   removeTask,
-  updateEditorState
+  updateEditorState,
+  saveTask
 } from '../actions/app'
 
 const initialState = {
@@ -97,6 +98,15 @@ export default handleActions(
         ...state,
         editorState: action.payload
       }
+    },
+    //@ts-ignore
+    [saveTask]: (state, action) => {
+      console.log(action.payload);
+      return {
+        ...state,
+        listTask: action.payload
+      }
+
     }
   },
   initialState

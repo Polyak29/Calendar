@@ -1,16 +1,15 @@
 import {takeLatest, put, delay} from "redux-saga/effects";
-import { initLoad,  } from "../actions/app";
+import {initLoad, saveTask} from "../actions/app";
 
 // @ts-ignore
 function* fetchConfigApp(apiApp, action) {
-  console.log(action);
   try {
     console.warn('[saga ===> FETCH CONFIG ===> ]');
     // yield put(showLoader());
     // yield delay(1000);
 
     const config = yield apiApp.getConfig();
-   console.log(action);
+    yield put(saveTask(config))
     // const selectedDays = getSelectedDays(config);
     // yield put(fetchSelectedDays(selectedDays));
     // yield put(fetchConfig(config));

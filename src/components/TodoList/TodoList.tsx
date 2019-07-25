@@ -43,9 +43,7 @@ class TodoList extends React.Component<IProps> {
 
   renderContextMenu () {
     return (
-      <div className={'context-menu'}>
-
-      </div>
+      <div className={'context-menu'}></div>
     )
   }
 
