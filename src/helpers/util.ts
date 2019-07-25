@@ -1,4 +1,5 @@
 import {string} from "prop-types";
+import {listTasks} from "./interfaces";
 
 const cloneDeep = require('lodash.clonedeep');
 export function deepClone(data: any) {
@@ -24,12 +25,41 @@ export function stylingCalendar() {
 }
 
 export function stringTransformDate(arg:string) {
-  console.log(null);
-  if (string === null) {
-    return null;
-  }
+
   const pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-  const dt = new Date(arg.replace(pattern,'$3-$2-$1'));
-  return dt
+  return new Date(arg.replace(pattern,'$3-$2-$1'));
+
 
 }
+
+export function dataTransfer(config:listTasks[]) {
+  const tempListTask = deepClone(config);
+  let data:{
+    daysWithTasks: (Date)[],
+    daysWithDoneTask: (Date)[],
+    listTasks: listTasks[],
+  } = {
+    daysWithDoneTask: [],
+    daysWithTasks: [],
+    listTasks: []
+  };
+  const withTask = tempListTask.filter((value:any) => value.task.length > 0);
+
+  const daysWithTasks = withTask.map((value:any) => {
+    return  stringTransformDate(value.day);
+  });
+
+  const DoneTask = tempListTask.filter((value:any) => value.isCompleted === true);
+
+  const daysWithDoneTask = DoneTask.map((value:any) => {
+       return stringTransformDate(value.day);
+     });
+
+
+    data.daysWithDoneTask = daysWithDoneTask;
+    data.daysWithTasks = daysWithTasks;
+    data.listTasks = withTask;
+
+    return data;
+}
+

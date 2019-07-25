@@ -10,4 +10,16 @@ export default class Api {
       return response.json();
     });
   }
+
+  save(config: any) {
+    return fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(config)
+    }).then(function(response) {
+      return response.json();
+    });
+  }
 }

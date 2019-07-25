@@ -13,3 +13,4 @@ export const saveTask = createAction(prefix + 'SAVE_TASK');
 
 export const fetchConfig = createAction(prefix + 'FETCH_CONFIG');
 export const initLoad = createAction(prefix + 'INIT_LOAD');
+export const saveData = createAction(prefix + 'SAVE_DATA');

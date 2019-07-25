@@ -1,11 +1,11 @@
 import './index.scss';
 import * as React from "react";
 import {string} from "prop-types";
-import {listTask} from "../../helpers/interfaces";
+import {listTasks} from "../../helpers/interfaces";
 import DraftEditor from "../DraftEditor/DraftEditor";
 
 interface IProps {
-  listTasks:listTask[],
+  listTasks:listTasks[],
   onChangeText: (event:any) => void,
   handleClickAddTask: (event:any) => void,
   minRows: number,
@@ -31,35 +31,6 @@ class ModalWindow extends React.Component<IProps> {
     rows: 5,
     isAddingTask: false,
   };
-
-  get lineHeight() {
-    if (window.getComputedStyle(this.textArea.current) === null) {
-      return 0;
-    }
-    return parseInt(window.getComputedStyle(this.textArea.current).getPropertyValue('line-height'));
-  }
-
-  handleChange = (event:any) => {
-  const textareaLineHeight = this.lineHeight;
-  const { onChangeText } = this.props;
-  const { minRows, maxRows } =this.props;
-  const previousRows = event.target.rows;
-  const value = event.target.value;
-
-  event.target.rows = minRows;
-
-  const currentRows = Math.trunc(event.target.scrollHeight / textareaLineHeight);
-
-  if (currentRows === previousRows) {
-    event.target.rows = currentRows;
-  }
-
-  if (currentRows >= maxRows) {
-    event.target.rows = maxRows;
-    event.target.scrollTop = event.target.scrollHeight;
-  }
-    onChangeText(value);
-};
 
   handleKeyPress = (event:any) => {
     const {handleClickAddTask} = this.props;

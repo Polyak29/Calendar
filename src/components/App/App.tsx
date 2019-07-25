@@ -3,8 +3,8 @@ import * as React from 'react';
 import DayPicker from "react-day-picker";
 import 'moment/locale/ru';
 import 'react-day-picker/lib/style.css';
-import {deepClone, randomNumber, stylingCalendar} from "../../helpers/util";
-import {listTask} from "../../helpers/interfaces";
+import {deepClone, randomNumber, stylingCalendar, stringTransformDate} from "../../helpers/util";
+import {listTasks} from "../../helpers/interfaces";
 import MomentLocaleUtils from 'react-day-picker/moment';
 import ModalWindow from "../ModalWindow";
 import TodoList from '../TodoList';
@@ -17,7 +17,8 @@ import {
   onChangeText,
   onChangeIsCompleted,
   removeTask,
-  initLoad
+  initLoad,
+  saveData
 } from "../../actions/app";
 import {connect} from "react-redux";
 
@@ -25,27 +26,28 @@ interface IProps {
   day: Date,
   content: string,
   selectedDay: Date,
-  daysWithTask: Date[],
+  daysWithTasks: Date[],
   daysWithDoneTask: Date [],
-  listTasks: listTask[],
+  listTasks: listTasks[],
   dayIsSelected: boolean,
   isAddingTask: boolean,
-  addTask: (arg:object) => void,
-  selectDay: (arg:object) => void,
+  addTask: (arg: object) => void,
+  selectDay: (arg: object) => void,
   openTextEdit: () => void,
   onChangeText: (arg: string) => void,
-  onChangeIsCompleted: (arg:object) => void,
-  removeTask: (arg:object) => void,
-  initLoad: (arg:string) => void,
+  onChangeIsCompleted: (arg: object) => void,
+  removeTask: (arg: object) => void,
+  initLoad: () => void,
+  saveData: (data: object) => void
 }
 
 
 class App extends React.Component<IProps> {
 
   componentDidMount(): void {
-    const { initLoad, selectedDay } = this.props;
+    const { initLoad } = this.props;
 
-    initLoad(selectedDay.toLocaleDateString());
+    initLoad();
   }
 
   public idOfDate = (day: string) => {
@@ -54,7 +56,7 @@ class App extends React.Component<IProps> {
 
 
   public handleDayClick = (day: Date) => {
-    const {dayIsSelected, selectedDay, selectDay, isAddingTask} = this.props;
+    const {dayIsSelected, selectedDay, selectDay, isAddingTask } = this.props;
     let tempSelectedDay = deepClone(selectedDay);
     let tempDayIsSelected = dayIsSelected;
     let data:{
@@ -87,27 +89,28 @@ class App extends React.Component<IProps> {
     selectDay(data);
   };
 
-  onChangeIsCompleted = (isCompleted:boolean, day:Date, id:number) => {
-    const { listTasks, daysWithDoneTask, onChangeIsCompleted } = this.props;
+  onChangeIsCompleted = (isCompleted:boolean, day:string, id:number) => {
+    const { listTasks, daysWithDoneTask, onChangeIsCompleted, saveData } = this.props;
     const tempListTasks = deepClone(listTasks);
     const tempDaysWithDoneTask = deepClone(daysWithDoneTask);
+    const date = stringTransformDate(day);
     let data:{
-      listTasks:listTask[],
+      listTasks:listTasks[],
       daysWithDoneTask:[]
     } =
       {
         listTasks:[],
         daysWithDoneTask:[]
       };
-    const element = tempListTasks.find((value:any) => value.day.toLocaleDateString() === day.toLocaleDateString());
+    const element = tempListTasks.find((value:any) => value.day === day);
 
     element.task.map((value:any) => {
       if (value.id === id) {
         if (value.isCompleted) {
-           value.isCompleted = false;
-           return null;
+          value.isCompleted = false;
+          return null;
         } else {
-           value.isCompleted = true;
+          value.isCompleted = true;
         }
       }
     });
@@ -115,32 +118,38 @@ class App extends React.Component<IProps> {
     const notCompleted = element.task.filter((value:any) => !value.isCompleted);
 
     if (notCompleted.length === 0) {
+      element.isCompleted = false;
+
       const index = tempDaysWithDoneTask.indexOf(day);
       if (index === -1) {
-        tempDaysWithDoneTask.push(day);
+        tempDaysWithDoneTask.push(date);
+        element.isCompleted = true;
       }
     } else {
       const index = tempDaysWithDoneTask.indexOf(day);
 
       tempDaysWithDoneTask.splice(index, 1);
+      element.isCompleted = false;
     }
 
     data.listTasks = tempListTasks;
     data.daysWithDoneTask = tempDaysWithDoneTask;
+
     onChangeIsCompleted(data);
+    saveData(data);
 
   };
 
   renderListTask() {
     const { listTasks, selectedDay } = this.props;
-    const element = listTasks.find((value) => value.day.toLocaleDateString() === selectedDay.toLocaleDateString());
+    const element = listTasks.find((value) => value.day === selectedDay.toLocaleDateString());
 
     if(element) {
       if(element.task.length > 0) {
         return (
           <TodoList
             handleClickRemoveTask={this.handleClickRemoveTask}
-            key={+this.idOfDate(element.day.toLocaleDateString())}
+            key={+this.idOfDate(element.day)}
             day={element.day}
             content={element.task}
             onChangeIsCompleted={this.onChangeIsCompleted}
@@ -155,19 +164,19 @@ class App extends React.Component<IProps> {
     openTextEdit();
   };
 
-  handleClickRemoveTask = (day:Date, id:number) => {
+  handleClickRemoveTask = (day:string, id:number) => {
 
-    const { listTasks, daysWithTask, daysWithDoneTask, removeTask } = this.props;
-    const tempDaysWithTask = deepClone(daysWithTask);
+    const { listTasks, daysWithTasks, daysWithDoneTask, removeTask, saveData } = this.props;
+    const tempDaysWithTask = deepClone(daysWithTasks);
     const tempListTasks = deepClone(listTasks);
     const tempDaysWithDoneTask =  deepClone(daysWithDoneTask);
     let data:{
-      listTasks: listTask[],
-      daysWithTask:[],
+      listTasks: listTasks[],
+      daysWithTasks:[],
       daysWithDoneTask:[]
     } = {
       listTasks: [],
-      daysWithTask: [],
+      daysWithTasks: [],
       daysWithDoneTask: []
     };
 
@@ -179,12 +188,12 @@ class App extends React.Component<IProps> {
         value.task.splice(index, 1);
 
         if (value.task.length === 0) {
-          const arrayString = tempDaysWithTask.map((value:Date) => {return value.toLocaleDateString()})
+          const arrayString = tempDaysWithTask.map((value:Date) => {return value.toLocaleDateString()});
           const index = arrayString.indexOf(day);
 
           tempDaysWithTask.splice(index, 1);
 
-          const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()})
+          const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()});
           const index2 = arrayString2.indexOf(day);
 
           tempDaysWithDoneTask.splice(index2, 1);
@@ -193,23 +202,24 @@ class App extends React.Component<IProps> {
     });
 
     data.listTasks = tempListTasks;
-    data.daysWithTask = tempDaysWithTask;
+    data.daysWithTasks = tempDaysWithTask;
     data.daysWithDoneTask = tempDaysWithDoneTask;
     removeTask(data);
+    saveData(data);
   };
 
   handleClickAddTask = () => {
-    const {addTask, content, selectedDay, daysWithTask, listTasks} = this.props;
-    const tempDaysWithTask = deepClone(daysWithTask);
+    const {addTask, content, selectedDay, daysWithTasks, listTasks, saveData} = this.props;
+    const tempDaysWithTask = deepClone(daysWithTasks);
     const tempListTasks = deepClone(listTasks);
     let data:{
-      daysWithTask: [],
+      daysWithTasks: [],
       dayIsSelected: boolean,
       isAddingTask: boolean,
-      listTasks:listTask[],
+      listTasks:listTasks[],
       content: string
     } ={
-      daysWithTask: [],
+      daysWithTasks: [],
       dayIsSelected: false,
       isAddingTask: false,
       listTasks:[],
@@ -218,12 +228,13 @@ class App extends React.Component<IProps> {
 
     if (tempListTasks.length === 0) {
       tempListTasks.push({
-        day: selectedDay,
+        day: selectedDay.toLocaleDateString(),
         isCompleted: false,
         task: [{content:content, id: randomNumber(), isCompleted: false}]
       });
     } else {
-      const element = tempListTasks.find((value:any) => (value.day === selectedDay));
+
+      const element = tempListTasks.find((value:any) => (value.day === selectedDay.toLocaleDateString()));
 
       if (element) {
         if (element.task) {
@@ -231,14 +242,12 @@ class App extends React.Component<IProps> {
         }
       } else {
         tempListTasks.push({
-          day: selectedDay,
+          day: selectedDay.toLocaleDateString(),
           isCompleted: false,
           task: [{content:content, id: randomNumber(), isCompleted: false}]
         });
       }
     }
-
-    let dayIsSelected = true;
 
     if(content.length === 0) {
       return null;
@@ -247,27 +256,21 @@ class App extends React.Component<IProps> {
     if (tempDaysWithTask.length === 0) {
 
       tempDaysWithTask.push(selectedDay);
-      dayIsSelected = true;
     } else {
       const arrayString = tempDaysWithTask.map((value:Date)=> {
         return value.toLocaleDateString();
       });
-      const index = arrayString.indexOf(selectedDay);
+      const index = arrayString.indexOf(selectedDay.toLocaleDateString());
 
       if(index === -1) {
-        dayIsSelected = true;
         tempDaysWithTask.push(selectedDay);
       }
     }
-
-    data.daysWithTask = tempDaysWithTask;
-    data.dayIsSelected = dayIsSelected;
-    data.isAddingTask = false;
+    data.daysWithTasks = tempDaysWithTask;
     data.listTasks  = tempListTasks;
-    data.content = '';
 
     addTask(data);
-
+    saveData(data);
   };
 
   public onChangeText = (event:any) => {
@@ -314,58 +317,57 @@ class App extends React.Component<IProps> {
   // }
 
   public render() {
-    const { selectedDay, isAddingTask, listTasks, daysWithTask, daysWithDoneTask } = this.props;
-
+    const { selectedDay, isAddingTask, listTasks, daysWithTasks, daysWithDoneTask } = this.props;
     const modifiers = {
-        daysWithTask: daysWithTask,
-        selectedDay: selectedDay,
-        daysWithDoneTask: daysWithDoneTask
-      };
+      daysWithTasks: daysWithTasks,
+      selectedDay: selectedDay,
+      daysWithDoneTask: daysWithDoneTask
+    };
 
-      const modifiersStyles = {
-        daysWithTask: {
-          boxShadow: 'none',
-          background: `linear-gradient(0deg, rgba(63,94,251,1) ${0}%, rgba(252,70,211,0.5) ${0}%)`
-        },
-        selectedDay: {
-          boxShadow: 'inset 0px 36px 4px 17px white',
-          backgroundColor: 'inherit',
-          color: '#ae88ea',
-        },
-        daysWithDoneTask: {
-          boxShadow: 'none',
-          background: `linear-gradient(0deg, rgba(63,94,251,1) ${100}%, rgba(252,70,211,0.5) ${100}%)`
-        }
-      };
+    const modifiersStyles = {
+      daysWithTasks: {
+        boxShadow: 'none',
+        background: `linear-gradient(0deg, rgba(63,94,251,1) ${0}%, rgba(252,70,211,0.5) ${0}%)`
+      },
+      selectedDay: {
+        boxShadow: 'inset 0px 36px 4px 17px white',
+        backgroundColor: 'inherit',
+        color: '#ae88ea',
+      },
+      daysWithDoneTask: {
+        boxShadow: 'none',
+        background: `linear-gradient(0deg, rgba(63,94,251,1) ${100}%, rgba(252,70,211,0.5) ${100}%)`
+      }
+    };
 
     return (
-        <div className={'wrap'} >
-          <Helmet>
-            <style>{stylingCalendar()}</style>
-          </Helmet>
-            <DayPicker
-              fixedWeeks
-              localeUtils={MomentLocaleUtils}
-              locale={'Ru'}
-              className={'calendar'}
-              onDayClick={this.handleDayClick}
-              selectedDays={selectedDay}
-              modifiers={modifiers}
-              modifiersStyles={modifiersStyles}
-              navbarElement={<NavBar />}
-            />
-          {this.renderListTask()}
-          {this.renderButton()}
-          <ModalWindow
-            isAddingTask={isAddingTask}
-            listTasks={listTasks}
-            minRows={3}
-            maxRows={10}
-            rows={3}
-            onChangeText={this.onChangeText}
-            handleClickAddTask={this.handleClickAddTask}
-          />
-        </div>
+      <div className={'wrap'} >
+        <Helmet>
+          <style>{stylingCalendar()}</style>
+        </Helmet>
+        <DayPicker
+          fixedWeeks
+          localeUtils={MomentLocaleUtils}
+          locale={'Ru'}
+          className={'calendar'}
+          onDayClick={this.handleDayClick}
+          selectedDays={selectedDay}
+          modifiers={modifiers}
+          modifiersStyles={modifiersStyles}
+          navbarElement={<NavBar />}
+        />
+        {this.renderListTask()}
+        {this.renderButton()}
+        <ModalWindow
+          isAddingTask={isAddingTask}
+          listTasks={listTasks}
+          minRows={3}
+          maxRows={10}
+          rows={3}
+          onChangeText={this.onChangeText}
+          handleClickAddTask={this.handleClickAddTask}
+        />
+      </div>
     );
   }
 }
@@ -406,10 +408,11 @@ const mapStateToProps = (state: any) => ({
   dayIsSelected: state.app.dayIsSelected,
   isAddingTask: state.app.isAddingTask,
   daysWithDoneTask: state.app.daysWithDoneTask,
-  daysWithTask: state.app.daysWithTask,
+  daysWithTasks: state.app.daysWithTasks,
   selectedDay: state.app.selectedDay,
   content: state.app.content,
-  day: state.app.day
+  day: state.app.day,
+  editorState: state.app.editorState
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -420,6 +423,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   onChangeIsCompleted: (data:object) => dispatch(onChangeIsCompleted(data)),
   removeTask: (data:object) => dispatch(removeTask(data)),
   initLoad: () => dispatch(initLoad()),
+  saveData: (data:object) => dispatch(saveData(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

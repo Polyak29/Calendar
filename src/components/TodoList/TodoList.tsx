@@ -2,14 +2,14 @@ import * as React from "react";
 import './index.scss';
 
 interface IProps {
-  day: any,
+  day: string,
   content:{
     id:number,
     content: string
     isCompleted: boolean
   }[],
-  onChangeIsCompleted: (isCompleted:boolean, day:Date, id:number) => void,
-  handleClickRemoveTask: (day:Date, id:number) => void
+  onChangeIsCompleted: (isCompleted:boolean, day:string, id:number) => void,
+  handleClickRemoveTask: (day:string, id:number) => void
 }
 
 interface IState {
@@ -19,7 +19,7 @@ interface IState {
 class TodoList extends React.Component<IProps> {
 
   static defaultProps: Partial<IProps> = {
-    day: null,
+    day: '',
     content: [],
     onChangeIsCompleted: () => {},
     handleClickRemoveTask: () => {}
@@ -43,7 +43,9 @@ class TodoList extends React.Component<IProps> {
 
   renderContextMenu () {
     return (
-      <div className={'context-menu'}></div>
+      <div className={'context-menu'}>
+
+      </div>
     )
   }
 
@@ -79,7 +81,7 @@ class TodoList extends React.Component<IProps> {
             </p>
             <i
               className="far fa-trash-alt task__button-remove"
-              onClick={handleClickRemoveTask.bind(this,day, value.id)}
+              onClick={handleClickRemoveTask.bind(this, day, value.id)}
 
             />
           </div>

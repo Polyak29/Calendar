@@ -1,18 +1,1 @@
-[
-  {
-    "day": "15.07.2019",
-    "isCompleted": false,
-    "task": [
-      {
-        "content": "Встреча с коллегой",
-        "id": "1923",
-        "isCompleted": false
-      },
-      {
-        "content": "Бассейн",
-        "id": "1543",
-        "isCompleted": false
-      }
-    ]
-  }
-]
+[{"day":"20.07.2019","isCompleted":true,"task":[{"content":"Привет","id":5410,"isCompleted":true}]},{"day":"16.07.2019","isCompleted":false,"task":[{"content":"werewrwr","id":2613,"isCompleted":false}]},{"day":"06.07.2019","isCompleted":false,"task":[{"content":"werwerwer","id":1757,"isCompleted":false}]}]

@@ -8,18 +8,17 @@ import {
   onChangeIsCompleted,
   removeTask,
   updateEditorState,
-  saveTask
+  fetchConfig
 } from '../actions/app'
 
 const initialState = {
   listTasks: [],
-  dayIsSelected: false,
+  dayIsSelected: true,
   isAddingTask: false,
   daysWithDoneTask: [],
-  daysWithTask: [],
+  daysWithTasks: [],
   selectedDay: new Date(),
   content: '',
-  day: new Date(),
   editorState: EditorState.createEmpty()
 };
 
@@ -29,20 +28,23 @@ export default handleActions(
   {
     //@ts-ignore
     [addTask]: (state, action) => {
-      const {daysWithTask, dayIsSelected, isAddingTask, listTasks} = action.payload;
-
+      console.log('addTask');
+      const {daysWithTasks, listTasks} = action.payload;
+      console.log(listTasks);
       return {
         ...state,
-        daysWithTask: daysWithTask,
-        dayIsSelected:  dayIsSelected,
-        isAddingTask: isAddingTask,
+        daysWithTasks: daysWithTasks,
+        dayIsSelected:  true,
+        isAddingTask: false,
         listTasks: listTasks,
-        editorState: EditorState.createEmpty()
+        editorState: EditorState.createEmpty(),
+        content: ''
       }
     },
 
     //@ts-ignore
     [selectDay]: (state, action) => {
+      console.log('selectDay');
       const { selectedDay, dayIsSelected, isAddingTask } = action.payload;
 
       return {
@@ -55,6 +57,7 @@ export default handleActions(
 
     //@ts-ignore
     [openTextEdit]: state => {
+      console.log('openTextEdit');
       return {
         ...state,
         isAddingTask:true
@@ -71,6 +74,7 @@ export default handleActions(
 
     //@ts-ignore
     [onChangeIsCompleted]: (state, action) => {
+      console.log('onChangeIsCompleted');
       const { listTasks, daysWithDoneTask } = action.payload;
 
       return {
@@ -82,30 +86,33 @@ export default handleActions(
 
     //@ts-ignore
     [removeTask]: (state, action) => {
-      const { listTasks, daysWithDoneTask, daysWithTask } = action.payload;
+      console.log('removeTask');
+      const { listTasks, daysWithDoneTask, daysWithTasks } = action.payload;
 
       return {
         ...state,
         listTasks: listTasks,
         daysWithDoneTask: daysWithDoneTask,
-        daysWithTask: daysWithTask
+        daysWithTasks: daysWithTasks
       }
     },
     //@ts-ignore
     [updateEditorState]: (state, action) => {
-
       return {
         ...state,
         editorState: action.payload
       }
     },
     //@ts-ignore
-    [saveTask]: (state, action) => {
-      console.log(action.payload);
+    [fetchConfig]: (state, action) => {
+      const { daysWithTasks, listTasks, daysWithDoneTask }= action.payload;
+
       return {
         ...state,
-        listTask: action.payload
-      }
+        listTasks: listTasks,
+        daysWithTasks: daysWithTasks,
+        daysWithDoneTask: daysWithDoneTask
+      };
 
     }
   },

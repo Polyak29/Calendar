@@ -13,6 +13,32 @@ app.get("/api/users", (req, res) => {
     res.send(fileData);
 });
 
+app.put("/api/users", jsonParser,  (req, res) => {
+    if(!req.body) return res.sendStatus(400);
+
+    const fileData = fs.readFileSync("config.json", "utf8");
+    const config = JSON.parse(fileData);
+    const idTask = req.body.idTask;
+    const checked = req.body.checked;
+
+    const task = config.find( value => (value.id === idTask));
+    task.isDone = checked;
+
+    const data = JSON.stringify(config);
+
+    fs.writeFileSync("config.json", data);
+    res.send(data);
+});
+
+app.post("/api/users", jsonParser, function (req, res) {
+    if(!req.body) return res.sendStatus(400);
+
+    const data = JSON.stringify(req.body);
+
+    fs.writeFileSync("config.json", data);
+    res.send(data);
+});
+
 app.listen(app.get('port'), () =>{
     console.log(`server worked`);
 });
@@ -64,28 +90,5 @@ app.listen(app.get('port'), () =>{
 //     });
 // });
 //
-// app.delete("/api/users/:id", (req, res) => {
-//     fs.readFile("users.json", "utf8", (err, data) => {
-//         if (err) return res.status(404).send(err);
-//         const arrayAfterDelete = JSON.parse(data)
-//             .filter(e => {
-//                 req.params.id !== +e.id;
-//             })
-//             .map((e, i) => {
-//                 e[id] = i;
-//             })
-//         const deletedFromArray = JSON.parse(data)
-//             .filter(e => {
-//                 req.params.id === +e.id;
-//             })
-//         if (deletedFromArray.length) {
-//             fs.writeFile("users.json", JSON.stringify(arrayAfterDelete), err => {
-//                 if (err) return res.status(404).send(err);
-//                 res.send(JSON.stringify(arrayAfterDelete));
-//             });
-//         } else {
-//             res.status(404).send();
-//         }
-//     });
-// });
+//
 
