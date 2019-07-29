@@ -91,9 +91,12 @@ class App extends React.Component<IProps> {
 
   onChangeIsCompleted = (isCompleted:boolean, day:string, id:number) => {
     const { listTasks, daysWithDoneTask, onChangeIsCompleted, saveData } = this.props;
+
     const tempListTasks = deepClone(listTasks);
     const tempDaysWithDoneTask = deepClone(daysWithDoneTask);
+
     const date = stringTransformDate(day);
+    const element = tempListTasks.find((value:any) => value.day === day);
     let data:{
       listTasks:listTasks[],
       daysWithDoneTask:[]
@@ -102,7 +105,7 @@ class App extends React.Component<IProps> {
         listTasks:[],
         daysWithDoneTask:[]
       };
-    const element = tempListTasks.find((value:any) => value.day === day);
+
 
     element.task.map((value:any) => {
       if (value.id === id) {
@@ -118,18 +121,17 @@ class App extends React.Component<IProps> {
     const notCompleted = element.task.filter((value:any) => !value.isCompleted);
 
     if (notCompleted.length === 0) {
-      element.isCompleted = false;
-
       const index = tempDaysWithDoneTask.indexOf(day);
+
+      element.isCompleted = true;
       if (index === -1) {
         tempDaysWithDoneTask.push(date);
-        element.isCompleted = true;
       }
     } else {
       const index = tempDaysWithDoneTask.indexOf(day);
 
-      tempDaysWithDoneTask.splice(index, 1);
       element.isCompleted = false;
+      tempDaysWithDoneTask.splice(index, 1);
     }
 
     data.listTasks = tempListTasks;
@@ -142,6 +144,10 @@ class App extends React.Component<IProps> {
 
   renderListTask() {
     const { listTasks, selectedDay } = this.props;
+
+    if (selectedDay === null) {
+      return null;
+    }
     const element = listTasks.find((value) => value.day === selectedDay.toLocaleDateString());
 
     if(element) {
@@ -161,15 +167,22 @@ class App extends React.Component<IProps> {
 
   handleClickOpenTextEdit = () => {
     const { openTextEdit } = this.props;
+
     openTextEdit();
   };
 
   handleClickRemoveTask = (day:string, id:number) => {
+    const { listTasks, daysWithTasks, daysWithDoneTask, removeTask, saveData, selectedDay } = this.props;
 
-    const { listTasks, daysWithTasks, daysWithDoneTask, removeTask, saveData } = this.props;
     const tempDaysWithTask = deepClone(daysWithTasks);
     const tempListTasks = deepClone(listTasks);
     const tempDaysWithDoneTask =  deepClone(daysWithDoneTask);
+
+    const currentDay = tempListTasks.find((value:any) => value.day === day);
+    const indexDay = tempListTasks.indexOf(currentDay);
+    const currentTask = currentDay.task.find((value:any) => value.id === id);
+    const indexTask = currentDay.task.indexOf(currentTask);
+    const taskCompletedLength = currentDay.task.filter((value:any) => value.isCompleted === true).length;
     let data:{
       listTasks: listTasks[],
       daysWithTasks:[],
@@ -180,66 +193,62 @@ class App extends React.Component<IProps> {
       daysWithDoneTask: []
     };
 
-    tempListTasks.map((value: any) => {
-      if (value.day === day) {
-        const element = value.task.find((value:any) => value.id === id);
-        const index = value.task.indexOf(element);
+    currentDay.task.splice(indexTask, 1);
 
-        value.task.splice(index, 1);
+    if (currentDay.task.length === 0) {
+      currentDay.isCompleted = false;
 
-        if (value.task.length === 0) {
-          const arrayString = tempDaysWithTask.map((value:Date) => {return value.toLocaleDateString()});
-          const index = arrayString.indexOf(day);
 
-          tempDaysWithTask.splice(index, 1);
+      const arrayString = tempDaysWithTask.map((value: Date) => {
+        return value.toLocaleDateString()
+      });
+      const index = arrayString.indexOf(day);
 
-          const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()});
-          const index2 = arrayString2.indexOf(day);
+      tempDaysWithTask.splice(index, 1);
+      const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()});
+      const index2 = arrayString2.indexOf(day);
 
-          tempDaysWithDoneTask.splice(index2, 1);
-        }
+      tempDaysWithDoneTask.splice(index2, 1);
+      tempListTasks.splice(indexDay, 1);
+    } else {
+      if (currentDay.task.length === taskCompletedLength) {
+        currentDay.isCompleted = true;
+        tempDaysWithDoneTask.push(selectedDay);
       }
-    });
+    }
 
     data.listTasks = tempListTasks;
     data.daysWithTasks = tempDaysWithTask;
     data.daysWithDoneTask = tempDaysWithDoneTask;
+
     removeTask(data);
     saveData(data);
   };
 
   handleClickAddTask = () => {
-    const {addTask, content, selectedDay, daysWithTasks, listTasks, saveData} = this.props;
+    const {addTask, content, selectedDay, daysWithTasks, listTasks, daysWithDoneTask, saveData} = this.props;
     const tempDaysWithTask = deepClone(daysWithTasks);
     const tempListTasks = deepClone(listTasks);
+    const tempDaysWithDoneTask =  deepClone(daysWithDoneTask);
     let data:{
-      daysWithTasks: [],
-      dayIsSelected: boolean,
-      isAddingTask: boolean,
+      daysWithTasks: Date[],
+      daysWithDoneTask: Date[],
       listTasks:listTasks[],
-      content: string
     } ={
       daysWithTasks: [],
-      dayIsSelected: false,
-      isAddingTask: false,
       listTasks:[],
-      content:''
+      daysWithDoneTask: []
     };
 
-    if (tempListTasks.length === 0) {
-      tempListTasks.push({
-        day: selectedDay.toLocaleDateString(),
-        isCompleted: false,
-        task: [{content:content, id: randomNumber(), isCompleted: false}]
-      });
-    } else {
+    if (content.length === 0) {
+      return null;
+    }
 
-      const element = tempListTasks.find((value:any) => (value.day === selectedDay.toLocaleDateString()));
+    if (tempListTasks.length !== 0) {
+      const currentDay = tempListTasks.find((value:any) => value.day === selectedDay.toLocaleDateString());
 
-      if (element) {
-        if (element.task) {
-          element.task.push({content:content, id: randomNumber(), isCompleted: false});
-        }
+      if (currentDay) {
+        currentDay.task.push({content:content, id: randomNumber(), isCompleted: false});
       } else {
         tempListTasks.push({
           day: selectedDay.toLocaleDateString(),
@@ -247,28 +256,37 @@ class App extends React.Component<IProps> {
           task: [{content:content, id: randomNumber(), isCompleted: false}]
         });
       }
-    }
 
-    if(content.length === 0) {
-      return null;
-    }
-
-    if (tempDaysWithTask.length === 0) {
-
-      tempDaysWithTask.push(selectedDay);
     } else {
-      const arrayString = tempDaysWithTask.map((value:Date)=> {
-        return value.toLocaleDateString();
+      tempListTasks.push({
+        day: selectedDay.toLocaleDateString(),
+        isCompleted: false,
+        task: [{content:content, id: randomNumber(), isCompleted: false}]
       });
-      const index = arrayString.indexOf(selectedDay.toLocaleDateString());
-
-      if(index === -1) {
-        tempDaysWithTask.push(selectedDay);
-      }
     }
+
+    const currentDay = tempListTasks.find((value:any) => value.day === selectedDay.toLocaleDateString());
+    const taskCompletedLength = currentDay.task.filter((value:any) => value.isCompleted === true).length;
+    const arrayString = tempDaysWithTask.map((value:Date)=> {
+      return value.toLocaleDateString();
+    });
+    const index = arrayString.indexOf(selectedDay.toLocaleDateString());
+
+    if(index === -1) {
+      tempDaysWithTask.push(selectedDay);
+    }
+    if (currentDay.task.length !== taskCompletedLength) {
+      currentDay.isCompleted = false;
+      const arrayString2 = tempDaysWithDoneTask.map((value:Date) => {return value.toLocaleDateString()});
+      const index2 = arrayString2.indexOf(selectedDay.toLocaleDateString());
+      console.log(currentDay.task.length);
+      console.log(taskCompletedLength);
+      tempDaysWithDoneTask.splice(index2, 1);
+    }
+
     data.daysWithTasks = tempDaysWithTask;
     data.listTasks  = tempListTasks;
-
+    data.daysWithDoneTask = tempDaysWithDoneTask;
     addTask(data);
     saveData(data);
   };
@@ -412,7 +430,8 @@ const mapStateToProps = (state: any) => ({
   selectedDay: state.app.selectedDay,
   content: state.app.content,
   day: state.app.day,
-  editorState: state.app.editorState
+  editorState: state.app.editorState,
+  contextMenuIsVisible: state.app.contextMenuIsVisible
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

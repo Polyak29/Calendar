@@ -20,7 +20,6 @@ function* saveToServer(apiApp, action) {
   try {
     console.warn('[saga ===> SEND TO SERVER CONFIG ===> ]');
     const config = action.payload.listTasks;
-    console.log(config);
     yield apiApp.save(config);
   } catch (e) {
     console.error('[saga ===> SEND TO SERVER CONFIG ===> error ]');

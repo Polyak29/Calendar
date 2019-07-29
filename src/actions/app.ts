@@ -9,7 +9,7 @@ export const onChangeText = createAction(prefix + 'ON_CHANGE_TEXT');
 export const onChangeIsCompleted = createAction(prefix + 'ON_CHANGE_IS_COMPLETED');
 export const removeTask = createAction(prefix + 'REMOVE_TASK');
 export const updateEditorState = createAction(prefix + 'UPDATE_EDITOR_STATE');
-export const saveTask = createAction(prefix + 'SAVE_TASK');
+export const changeContextMenu = createAction(prefix + 'CHANGE_CONTEXT_MENU');
 
 export const fetchConfig = createAction(prefix + 'FETCH_CONFIG');
 export const initLoad = createAction(prefix + 'INIT_LOAD');

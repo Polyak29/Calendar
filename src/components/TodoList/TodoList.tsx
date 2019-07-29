@@ -1,5 +1,6 @@
 import * as React from "react";
 import './index.scss';
+import ContextMenu from "../ContextMenu";
 
 interface IProps {
   day: string,
@@ -16,7 +17,7 @@ interface IState {
   idTask: number,
   styleInput:{}
 }
-class TodoList extends React.Component<IProps> {
+export default class TodoList extends React.Component<IProps> {
 
   static defaultProps: Partial<IProps> = {
     day: '',
@@ -37,17 +38,10 @@ class TodoList extends React.Component<IProps> {
   };
 
   onContextMenu = (event:any) => {
-    event.preventDefault(); //убрать контекстное меню дефолтное
+    event.preventDefault();
 
 };
 
-  renderContextMenu () {
-    return (
-      <div className={'context-menu'}>
-
-      </div>
-    )
-  }
 
   renderTask() {
     const { content, handleClickRemoveTask, day } = this.props;
@@ -84,6 +78,7 @@ class TodoList extends React.Component<IProps> {
               onClick={handleClickRemoveTask.bind(this, day, value.id)}
 
             />
+            {/*<ContextMenu />*/}
           </div>
 
         )
@@ -102,5 +97,3 @@ class TodoList extends React.Component<IProps> {
       )
       }
 }
-
-export default TodoList;

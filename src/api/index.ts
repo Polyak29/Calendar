@@ -11,7 +11,7 @@ export default class Api {
     });
   }
 
-  save(config: any) {
+  save(config: object) {
     return fetch('/api/users', {
       method: 'POST',
       headers: {

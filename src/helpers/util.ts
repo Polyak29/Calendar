@@ -49,9 +49,9 @@ export function dataTransfer(config:listTasks[]) {
     return  stringTransformDate(value.day);
   });
 
-  const DoneTask = tempListTask.filter((value:any) => value.isCompleted === true);
+  const doneTask = tempListTask.filter((value:any) => value.isCompleted === true);
 
-  const daysWithDoneTask = DoneTask.map((value:any) => {
+  const daysWithDoneTask = doneTask.map((value:any) => {
        return stringTransformDate(value.day);
      });
 

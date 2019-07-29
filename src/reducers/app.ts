@@ -8,11 +8,13 @@ import {
   onChangeIsCompleted,
   removeTask,
   updateEditorState,
-  fetchConfig
+  fetchConfig,
+  changeContextMenu
 } from '../actions/app'
 
 const initialState = {
   listTasks: [],
+  contextMenuIsVisible: false,
   dayIsSelected: true,
   isAddingTask: false,
   daysWithDoneTask: [],
@@ -28,11 +30,11 @@ export default handleActions(
   {
     //@ts-ignore
     [addTask]: (state, action) => {
-      console.log('addTask');
-      const {daysWithTasks, listTasks} = action.payload;
-      console.log(listTasks);
+      const {daysWithTasks, listTasks, daysWithDoneTask} = action.payload;
+
       return {
         ...state,
+        daysWithDoneTask: daysWithDoneTask,
         daysWithTasks: daysWithTasks,
         dayIsSelected:  true,
         isAddingTask: false,
@@ -44,7 +46,6 @@ export default handleActions(
 
     //@ts-ignore
     [selectDay]: (state, action) => {
-      console.log('selectDay');
       const { selectedDay, dayIsSelected, isAddingTask } = action.payload;
 
       return {
@@ -57,7 +58,6 @@ export default handleActions(
 
     //@ts-ignore
     [openTextEdit]: state => {
-      console.log('openTextEdit');
       return {
         ...state,
         isAddingTask:true
@@ -74,7 +74,6 @@ export default handleActions(
 
     //@ts-ignore
     [onChangeIsCompleted]: (state, action) => {
-      console.log('onChangeIsCompleted');
       const { listTasks, daysWithDoneTask } = action.payload;
 
       return {
@@ -86,7 +85,6 @@ export default handleActions(
 
     //@ts-ignore
     [removeTask]: (state, action) => {
-      console.log('removeTask');
       const { listTasks, daysWithDoneTask, daysWithTasks } = action.payload;
 
       return {
@@ -113,7 +111,13 @@ export default handleActions(
         daysWithTasks: daysWithTasks,
         daysWithDoneTask: daysWithDoneTask
       };
-
+    },
+    //@ts-ignore
+    [changeContextMenu] : (state, action) => {
+      return {
+        ...state,
+        contextMenuIsVisible: action.payload
+      }
     }
   },
   initialState
