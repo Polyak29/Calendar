@@ -3,16 +3,14 @@ import 'draft-js/dist/Draft.css';
 import { Editor, RichUtils } from "draft-js";
 import * as React from 'react';
 import {
-  updateEditorState,
-  onChangeText
+  updateEditorState
 } from "../../actions/app";
 import {connect} from "react-redux";
 
 
 interface IProps {
   editorState: any,
-  updateEditorState: (arg: any) => void,
-  onChangeText: (arg: string) => void
+  updateEditorState: (arg: object) => void,
 }
 
  class DraftEditor extends React.Component<IProps> {
@@ -30,10 +28,8 @@ interface IProps {
     this.editor = React.createRef();
 
     this.onChange = (editorState:any) => {
+      const {updateEditorState} = this.props;
 
-      const {updateEditorState, onChangeText} = this.props;
-
-      onChangeText(editorState.getCurrentContent().getPlainText());
       updateEditorState(editorState)
     };
 
@@ -80,7 +76,6 @@ interface IProps {
   render() {
     const {editorState} = this.props;
     let className = 'RichEditor-editor';
-
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -132,16 +127,14 @@ function getBlockStyle(block:any) {
 }
 
 const BLOCK_TYPES = [
-  {label: 'H1', style: 'header-one'},
-  {label: 'H2', style: 'header-two'},
-  {label: 'H3', style: 'header-three'},
-  {label: 'H4', style: 'header-four'},
-  {label: 'H5', style: 'header-five'},
-  {label: 'H6', style: 'header-six'},
-  {label: 'Blockquote', style: 'blockquote'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Code Block', style: 'code-block'},
+  {label: 'H1', style: 'header-one', icon: 'H1'},
+  {label: 'H2', style: 'header-two', icon: 'H2'},
+  {label: 'H3', style: 'header-three', icon: 'H3'},
+  {label: 'H4', style: 'header-four', icon: 'H4'},
+  {label: 'H5', style: 'header-five', icon: 'H5'},
+  {label: 'H6', style: 'header-six', icon: 'H6'},
+  {label: 'UL', style: 'unordered-list-item', icon: 'fas fa-list-ul'},
+  {label: 'OL', style: 'ordered-list-item', icon: 'fas fa-list-ol'},
 ];
 
 const BlockStyleControls = (props:any) => {
@@ -155,7 +148,7 @@ const BlockStyleControls = (props:any) => {
   return (
     <div className="RichEditor-controls">
       {BLOCK_TYPES.map((type) =>{
-          const { label, style} = type;
+          const { label, style, icon } = type;
           return(
         <StyleButton
         key={label}
@@ -163,6 +156,7 @@ const BlockStyleControls = (props:any) => {
         label={label}
         onToggle={props.onToggle}
         style={style}
+        icon={icon}
         />
         )
       }
@@ -175,7 +169,8 @@ interface StyleBtn {
   onToggle: (arg:any) => void;
   style: string,
   active: boolean,
-  label:string,
+  label: string,
+  icon: string
 
 }
 
@@ -198,17 +193,16 @@ class StyleButton extends React.Component<StyleBtn> {
     }
     return (
       <span className={className} onMouseDown={this.onToggle}>
-              {this.props.label}
+        <i className={this.props.icon}>{this.props.icon.substr(0, 1) === 'H' ? this.props.icon : null}</i>
             </span>
     );
   }
 }
 
 const INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
-  {label: 'Monospace', style: 'CODE'},
+  {label: 'Bold', style: 'BOLD', icon: 'fas fa-bold'},
+  {label: 'Italic', style: 'ITALIC', icon: 'fas fa-italic'},
+  {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
 ];
 
 const InlineStyleControls = (props:any) => {
@@ -218,11 +212,12 @@ const InlineStyleControls = (props:any) => {
       {INLINE_STYLES.map(type =>
 
         <StyleButton
-          key={type.label}
+          key={type.style}
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.onToggle}
           style={type.style}
+          icon={type.icon}
         />
       )}
     </div>
@@ -234,8 +229,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateEditorState: (data:object) => {dispatch(updateEditorState(data))},
-  onChangeText: (data: string) => dispatch(onChangeText(data)),
+  updateEditorState: (data:object) => {dispatch(updateEditorState(data))}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DraftEditor);

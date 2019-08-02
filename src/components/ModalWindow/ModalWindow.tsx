@@ -1,17 +1,15 @@
 import './index.scss';
 import * as React from "react";
 import {string} from "prop-types";
-import {listTasks} from "../../helpers/interfaces";
 import DraftEditor from "../DraftEditor/DraftEditor";
+import ICalendarConfig from "../../models/calendarConfig/ICalendarConfig";
 
 interface IProps {
-  listTasks:listTasks[],
+  ListTasks:ICalendarConfig[],
   onChangeText: (event:any) => void,
   handleClickAddTask: (event:any) => void,
-  minRows: number,
-  maxRows: number,
-  rows: number,
-  isAddingTask:boolean,
+  isNewTask: boolean,
+  isAddingTask: boolean,
 }
 
 class ModalWindow extends React.Component<IProps> {
@@ -23,12 +21,9 @@ class ModalWindow extends React.Component<IProps> {
 }
 
   static defaultProps: Partial<IProps> = {
-    listTasks: [],
+    ListTasks: [],
     onChangeText: () => string,
     handleClickAddTask: () => [],
-    minRows: 4,
-    maxRows: 10,
-    rows: 5,
     isAddingTask: false,
   };
 
@@ -41,7 +36,7 @@ class ModalWindow extends React.Component<IProps> {
   };
 
   public render() {
-    const {isAddingTask, handleClickAddTask} = this.props;
+    const {isAddingTask, handleClickAddTask, isNewTask} = this.props;
 
     if (!isAddingTask) {
       return null;
@@ -50,7 +45,10 @@ class ModalWindow extends React.Component<IProps> {
     return (
       <div className={'wrap-textArea'}>
         <DraftEditor />
-        <div className={'button-add'} onClick={handleClickAddTask} >Добавить</div>
+          {/*<div className={'button-time'} onClick={handleClickAddTask} >*/}
+          {/*  <p className={'button-time__title'}>Укажите время</p>*/}
+          {/*</div>*/}
+          <div className={'button-add'} onClick={handleClickAddTask} >{isNewTask ?'Добавить':'Изменить'}</div>
       </div>
     )
   }

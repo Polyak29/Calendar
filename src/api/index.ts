@@ -6,9 +6,12 @@ export default class Api {
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(function(response) {
+    }).then(function(response ) {
       return response.json();
-    });
+    }).then(function(myJson) {
+      console.log( myJson);
+      return myJson;
+    })
   }
 
   save(config: object) {

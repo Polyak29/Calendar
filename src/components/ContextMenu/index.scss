@@ -1,6 +1,46 @@
+@mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65,0,.076,1)) {
+  transition: $property $duration $ease;
+}
+%view {
+  font-size: 9px;
+  margin: 5px 2px 5px 2px;
+  height: 100%;
+  font-family: Colus, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.65, 0, 0.076, 1);
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: white;
+  }
+}
+
 .context-menu {
-  height: 30px;
-  width: 80px;
+  position: absolute;
+  display:flex;
+  height: 25px;
+  //max-width: 100px;
+  padding: 0 3px;
   z-index: 88;
-  background: #8B9898;
+  border: 0.5px solid white;
+  border-radius: 5px;
+  background: radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb);
+  justify-content: center;
+  align-items: center;
+
+  &__view {
+    @extend %view;
+  }
+
+  &__edit {
+    @extend %view;
+  }
+
+  &__done {
+    @extend %view;
+  }
+
+  &__add {
+    @extend %view;
+  }
 }

@@ -43,7 +43,7 @@ position: relative;
 
   &-wrapper {
     border-radius: 19px;
-    background: radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb );
+    background: radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb);
     outline: none;
     &::before {
       z-index: -1;
@@ -192,6 +192,51 @@ position: relative;
       @include transition(all, 0.8s, cubic-bezier(0.65,0,.076,1));
     }
   }
+}
+
+.textArea {
+  background: #e3e9ff;
+  width: 600px;
+  border-radius: 6px;
+  word-wrap: break-word;
+  padding: 5px;
+  font-size: 18px;
+  position: relative;
+  z-index: 11;
+
+  &__background {
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: black;
+    z-index: 10;
+  }
+
+  &__button-close {
+    color: white;
+    align-self: flex-end;
+    z-index: 11;
+    cursor: pointer;
+    margin-right: 35px;
+  }
+
+  &__container{
+
+  }
+}
+
+.modal-background {
+  position: absolute;
+  left: 0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  opacity:0;
+  background: black;
+  z-index: 10;
 }
 
 //html, body {

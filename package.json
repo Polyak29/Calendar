@@ -22,7 +22,6 @@
     "npm-api": "^1.0.0",
     "react": "^16.8.6",
     "react-calendar": "^2.19.0",
-    "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-redux": "^7.1.0",
@@ -58,6 +57,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react-day-picker": "git+https://github.com/AbilityMaster/react-day-picker.git"
   }
 }

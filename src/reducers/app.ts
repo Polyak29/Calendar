@@ -4,24 +4,30 @@ import {
   addTask,
   selectDay,
   openTextEdit,
-  onChangeText,
   onChangeIsCompleted,
   removeTask,
   updateEditorState,
   fetchConfig,
-  changeContextMenu
+  activeContextMenu,
+  hideContextMenu,
+  activeContextMenuDate
 } from '../actions/app'
 
 const initialState = {
   listTasks: [],
+  isClickOnDay: false,
   contextMenuIsVisible: false,
+  isViewText: false,
   dayIsSelected: true,
   isAddingTask: false,
   daysWithDoneTask: [],
   daysWithTasks: [],
   selectedDay: new Date(),
-  content: '',
-  editorState: EditorState.createEmpty()
+  editorState: EditorState.createEmpty(),
+  axisX: 0,
+  axisY: 0,
+  idTask: 0,
+  isNewTask: true
 };
 
 Object.freeze(initialState);
@@ -40,7 +46,8 @@ export default handleActions(
         isAddingTask: false,
         listTasks: listTasks,
         editorState: EditorState.createEmpty(),
-        content: ''
+        isNewTask: true,
+        isClickOnDay: false
       }
     },
 
@@ -57,18 +64,12 @@ export default handleActions(
     },
 
     //@ts-ignore
-    [openTextEdit]: state => {
+    [openTextEdit]: (state, action) => {
       return {
         ...state,
-        isAddingTask:true
-      }
-    },
-
-    //@ts-ignore
-    [onChangeText]: (state, action) => {
-      return {
-        ...state,
-        content: action.payload
+        contextMenuIsVisible: false,
+        isAddingTask: true,
+        editorState: action.payload
       }
     },
 
@@ -79,7 +80,8 @@ export default handleActions(
       return {
         ...state,
         listTasks: listTasks,
-        daysWithDoneTask: daysWithDoneTask
+        daysWithDoneTask: daysWithDoneTask,
+        idTask:0
       }
     },
 
@@ -113,12 +115,39 @@ export default handleActions(
       };
     },
     //@ts-ignore
-    [changeContextMenu] : (state, action) => {
+    [activeContextMenu] : (state, action) => {
+      const { axisX, axisY, idTask } = action.payload;
       return {
         ...state,
-        contextMenuIsVisible: action.payload
+        contextMenuIsVisible: true,
+        axisX: axisX,
+        axisY: axisY,
+        idTask: idTask,
+        isNewTask: false
       }
-    }
+    },
+    //@ts-ignore
+    [activeContextMenuDate] : (state, action) => {
+      const { axisX, axisY, selectedDay } = action.payload;
+
+      return {
+        ...state,
+        contextMenuIsVisible: true,
+        axisX: axisX,
+        axisY: axisY,
+        selectedDay: selectedDay,
+        isClickOnDay: true
+      }
+    },
+    //@ts-ignore
+    [hideContextMenu]: (state, action) => {
+      return {
+        ...state,
+        contextMenuIsVisible: false,
+        isViewText: action.payload,
+        isNewTask: true
+      }
+    },
   },
   initialState
 )

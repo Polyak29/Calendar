@@ -3,14 +3,18 @@ import './index.scss';
 import ContextMenu from "../ContextMenu";
 
 interface IProps {
+  contextMenuIsVisible: boolean,
   day: string,
-  content:{
-    id:number,
-    content: string
-    isCompleted: boolean
+  tasksOnDay:{
+    id: number,
+    content: string,
+    isCompleted: boolean,
+    taskForEdit: object
   }[],
   onChangeIsCompleted: (isCompleted:boolean, day:string, id:number) => void,
-  handleClickRemoveTask: (day:string, id:number) => void
+  handleClickRemoveTask: (day:string, id:number) => void,
+  activeContextMenu: (data: object) => void,
+  openTextEditor: (arg: number) => void
 }
 
 interface IState {
@@ -21,7 +25,7 @@ export default class TodoList extends React.Component<IProps> {
 
   static defaultProps: Partial<IProps> = {
     day: '',
-    content: [],
+    tasksOnDay: [],
     onChangeIsCompleted: () => {},
     handleClickRemoveTask: () => {}
   };
@@ -37,14 +41,19 @@ export default class TodoList extends React.Component<IProps> {
     onChangeIsCompleted(isCompleted, day, id)
   };
 
-  onContextMenu = (event:any) => {
-    event.preventDefault();
+  onContextMenu = (id:number, event:any) => {
+    let data = {axisX:0, axisY:0, idTask:0};
+    data.axisX = event.clientX;
+    data.axisY = event.clientY;
+    data.idTask = id;
 
+    this.props.activeContextMenu(data);
+    event.preventDefault();
 };
 
 
   renderTask() {
-    const { content, handleClickRemoveTask, day } = this.props;
+    const { tasksOnDay, handleClickRemoveTask, day } = this.props;
     const styleIcon:object = {
       background: 'radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb )'
     };
@@ -53,7 +62,7 @@ export default class TodoList extends React.Component<IProps> {
       color: '#8d8d8d'
     };
 
-    return content.map((value) => {
+    return tasksOnDay.map((value) => {
         return (
           <div
             className={'task'}
@@ -69,16 +78,14 @@ export default class TodoList extends React.Component<IProps> {
             <p className={'task__content'}
                onClick={this.onChangeCheckBox.bind(this, value.isCompleted, value.id)}
                style={value.isCompleted ? styleContent : {}}
-               onContextMenu={this.onContextMenu}
+               onContextMenu={this.onContextMenu.bind(this, value.id)}
             >
               {value.content}
             </p>
             <i
               className="far fa-trash-alt task__button-remove"
               onClick={handleClickRemoveTask.bind(this, day, value.id)}
-
             />
-            {/*<ContextMenu />*/}
           </div>
 
         )

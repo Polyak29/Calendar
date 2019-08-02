@@ -1,6 +1,6 @@
 .wrap-textArea {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
   background: #e3e9ff;
@@ -8,27 +8,28 @@
   box-shadow: 0 4px 10px -8px black;
   padding-top: 10px;
   border-radius: 19px;
+  position: relative;
 }
 
-.container {
-  box-sizing: border-box;
-  border: none;
-  border-radius: 3px;
-  resize: none;
-  font-size: 20px;
-  line-height: 24px;
-  overflow: auto;
-  height: auto;
-  width: 94%;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover .control {
-    visibility: visible;
-  }
-}
+//.container {
+//  box-sizing: border-box;
+//  border: none;
+//  border-radius: 3px;
+//  resize: none;
+//  font-size: 20px;
+//  line-height: 24px;
+//  overflow: auto;
+//  height: auto;
+//  width: 94%;
+//
+//  &:focus {
+//    outline: none;
+//  }
+//
+//  &:hover .control {
+//    visibility: visible;
+//  }
+//}
 
 .button-add {
   display: flex;
@@ -44,4 +45,27 @@
   color: white;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.button-time {
+  border-top: 2px solid #e3e9ff;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  background: white;
+  height: 40px;
+  width: 100%;
+
+  &__title {
+    opacity: 0.7;
+    margin: 0;
+
+  }
+
+  &:hover {
+    color: black;
+    //opacity: 0.7;
+  }
 }
