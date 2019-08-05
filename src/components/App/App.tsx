@@ -37,9 +37,9 @@ import { connect } from "react-redux";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import TaskModel from "../../models/task/TaskModel";
 import CalendarConfigModel from "../../models/calendarConfig/CalendarConfigModel";
+import {INavBar} from "../../interfaces";
 
 interface IProps {
-  day: Date,
   isViewText: boolean,
   idTask: number,
   selectedDay: Date,
@@ -131,7 +131,7 @@ class App extends React.Component<IProps> {
         daysWithDoneTask: []
       };
 
-    currentDay.tasks.map((value: any) => {
+    currentDay.tasks.map((value: ITask) => {
       if (value.id === id) {
         if (value.isCompleted) {
           value.isCompleted = false;
@@ -141,7 +141,7 @@ class App extends React.Component<IProps> {
       }
     });
 
-    const taskNotCompleted = currentDay.tasks.filter((value: any) => !value.isCompleted);
+    const taskNotCompleted = currentDay.tasks.filter((value: ITask) => !value.isCompleted);
     const indexDay = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
 
     if (taskNotCompleted.length === 0) {
@@ -215,20 +215,20 @@ class App extends React.Component<IProps> {
     const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
     const tempDaysWithDoneTask: Date[] = deepClone(daysWithDoneTask);
 
-    const currentDay = tempListTasks.find((value: any) => value.day === day);
+    const currentDay = tempListTasks.find((value: ICalendarConfig) => value.day === day);
 
     if (!currentDay){
       return null;
     }
 
-    const currentTask = currentDay.tasks.find((value: any) => value.id === id);
+    const currentTask = currentDay.tasks.find((value: ITask) => value.id === id);
 
     if (!currentTask){
       return null;
     }
 
     const indexTask: number = currentDay.tasks.indexOf(currentTask);
-    const taskCompletedLength: number = currentDay.tasks.filter((value: any) => value.isCompleted === true).length;
+    const taskCompletedLength: number = currentDay.tasks.filter((value: ITask) => value.isCompleted === true).length;
     let data: {
       listTasks: ICalendarConfig[],
       daysWithTasks: Date[],
@@ -287,7 +287,7 @@ class App extends React.Component<IProps> {
     if (editorState.getCurrentContent().getPlainText().length === 0) {
       return null;
     }
-    const currentDay = tempListTasks.find((value: any) => value.day === selectedDay.toLocaleDateString());
+    const currentDay = tempListTasks.find((value: ICalendarConfig) => value.day === selectedDay.toLocaleDateString());
 
       if (!currentDay) {
         tempListTasks.push({
@@ -307,7 +307,7 @@ class App extends React.Component<IProps> {
         }
       }
       else {
-        const currentTask = currentDay.tasks.find((value: any) => value.id === idTask);
+        const currentTask = currentDay.tasks.find((value: ITask) => value.id === idTask);
         if (!currentTask) {
           currentDay.tasks.push({
             content: editorState.getCurrentContent().getPlainText(),
@@ -319,7 +319,7 @@ class App extends React.Component<IProps> {
           currentTask.content = editorState.getCurrentContent().getPlainText()
         }
 
-        const lengthTasksCompleted: number = currentDay.tasks.filter((value: any) => value.isCompleted === true).length;
+        const lengthTasksCompleted: number = currentDay.tasks.filter((value: ITask) => value.isCompleted === true).length;
 
         if (currentDay.tasks.length !== lengthTasksCompleted) {
           currentDay.isCompleted = false;
@@ -341,7 +341,7 @@ class App extends React.Component<IProps> {
     data.daysWithTasks = tempDaysWithTask;
     data.listTasks = tempListTasks;
     data.daysWithDoneTask = tempDaysWithDoneTask;
-    console.log(data);
+
     addTask(data);
     saveData(data);
   };
@@ -503,7 +503,7 @@ class App extends React.Component<IProps> {
           selectedDays={selectedDay}
           modifiers={modifiers}
           modifiersStyles={modifiersStyles}
-          navbarElement={<NavBar/>}
+          navbarElement={<NavBar onNextClick={() => {}} className={''} onPreviousClick={() =>{}} />}
           onContextMenu={this.onContextMenu}
         />
         {this.renderContainerForViewText()}
@@ -524,7 +524,8 @@ function NavBar({
                   onPreviousClick,
                   onNextClick,
                   className,
-                }: any) {
+                }: INavBar) {
+
   const styleLeft: object = {
     position: 'absolute',
     top: '18px',
@@ -556,8 +557,6 @@ const mapStateToProps = (state: any) => ({
   daysWithDoneTask: state.app.daysWithDoneTask,
   daysWithTasks: state.app.daysWithTasks,
   selectedDay: state.app.selectedDay,
-  content: state.app.content,
-  day: state.app.day,
   idTask: state.app.idTask,
   editorState: state.app.editorState,
   contextMenuIsVisible: state.app.contextMenuIsVisible,
@@ -565,7 +564,7 @@ const mapStateToProps = (state: any) => ({
   isNewTask: state.app.isNewTask,
   axisX: state.app.axisX,
   axisY: state.app.axisY,
-  isClickOnDay: state.app.isClickOnDay
+  isClickOnDay: state.app.isClickOnDay,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

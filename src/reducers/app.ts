@@ -47,7 +47,8 @@ export default handleActions(
         listTasks: listTasks,
         editorState: EditorState.createEmpty(),
         isNewTask: true,
-        isClickOnDay: false
+        isClickOnDay: false,
+        idTask: 0
       }
     },
 

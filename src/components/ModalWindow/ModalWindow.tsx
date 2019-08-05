@@ -13,12 +13,6 @@ interface IProps {
 }
 
 class ModalWindow extends React.Component<IProps> {
-  textArea:any = React.createRef<HTMLDivElement>();
-
-  constructor(props:any) {
-  super(props);
-  this.textArea = React.createRef();
-}
 
   static defaultProps: Partial<IProps> = {
     ListTasks: [],
@@ -27,13 +21,6 @@ class ModalWindow extends React.Component<IProps> {
     isAddingTask: false,
   };
 
-  handleKeyPress = (event:any) => {
-    const {handleClickAddTask} = this.props;
-
-    if(event.key === 'Enter'){
-      handleClickAddTask(event);
-    }
-  };
 
   public render() {
     const {isAddingTask, handleClickAddTask, isNewTask} = this.props;
