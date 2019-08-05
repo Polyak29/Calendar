@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d7b09c9-0908-4c43-88c1-eec1a4ab2d03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/interfaces/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/util.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/util.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reducers/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sagas/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sagas/app.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,11 +25,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5334174">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/helpers/util.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="374">
-                  <caret line="82" column="35" selection-start-line="82" selection-start-column="16" selection-end-line="82" selection-end-column="35" />
+                <state relative-caret-position="501">
+                  <caret line="91" column="1" lean-forward="true" selection-start-line="91" selection-start-column="1" selection-end-line="91" selection-end-column="1" />
                   <folding>
                     <element signature="e#1#80#0" expanded="true" />
                   </folding>
@@ -35,11 +37,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="186">
-                  <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+                <state relative-caret-position="286">
+                  <caret line="32" column="83" selection-start-line="32" selection-start-column="72" selection-end-line="32" selection-end-column="83" />
                   <folding>
                     <element signature="e#0#22#0" expanded="true" />
                   </folding>
@@ -50,12 +52,16 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/App/App.tsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="186">
-                  <caret line="386" column="53" selection-start-line="386" selection-start-column="50" selection-end-line="386" selection-end-column="53" />
+                <state relative-caret-position="119">
+                  <caret line="269" column="32" selection-start-line="269" selection-start-column="32" selection-end-line="269" selection-end-column="32" />
                   <folding>
                     <element signature="e#0#22#0" expanded="true" />
-                    <element signature="e#5631#7371#0" />
+                    <element signature="e#1884#2780#0" />
+                    <element signature="e#4395#4649#0" />
+                    <element signature="n#!!block;n#renderListTask#0;n#App#0" />
+                    <element signature="e#5481#5573#0" />
                     <element signature="e#9968#10423#0" />
+                    <element signature="n#!!block;n#renderButton#0;n#App#0" />
                     <element signature="e#12862#12978#0" />
                     <element signature="e#13009#13478#0" />
                   </folding>
@@ -73,13 +79,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx">
+            <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/CalendarConfigModel.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3298">
-                  <caret line="194" column="62" lean-forward="true" selection-start-line="194" selection-start-column="62" selection-end-line="194" selection-end-column="62" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="187">
+                  <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
                 </state>
               </provider>
             </entry>
@@ -94,34 +97,13 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/components/TodoList/TodoList.tsx">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-363">
-                  <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-                  <folding>
-                    <element signature="e#0#31#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/ContextMenu.tsx">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1241">
-                  <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+                <state relative-caret-position="-340">
+                  <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/index.scss">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="29" selection-start-line="29" selection-end-line="29" />
                 </state>
               </provider>
             </entry>
@@ -131,12 +113,45 @@
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/ICalendarConfig.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="102">
+                  <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="238">
+                  <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+                  <folding>
+                    <element signature="e#0#22#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/interfaces/index.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="9" selection-start-line="9" selection-end-line="9" />
+                <state relative-caret-position="467">
+                  <caret line="72" column="25" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="25" />
                   <folding>
                     <element signature="e#0#37#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/actions/app.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="18" selection-start-line="18" selection-end-line="18" />
+                  <folding>
+                    <element signature="e#0#45#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -164,22 +179,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/CalendarConfigModel.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
-                  <folding>
-                    <element signature="e#1#35#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/reducers/app.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="16" column="2" lean-forward="true" selection-start-line="16" selection-start-column="2" selection-end-line="29" selection-end-column="17" />
+                <state relative-caret-position="342">
+                  <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
                   <folding>
                     <element signature="e#0#46#0" expanded="true" />
                   </folding>
@@ -213,10 +216,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>RichEditor-editor</find>
-      <find>9197a3</find>
-      <find>bin</find>
-      <find>port</find>
       <find>daysWithTask</find>
       <find>listTask</find>
       <find>hid</find>
@@ -233,7 +232,6 @@
       <find>content</find>
       <find>activeContextMenu</find>
       <find>onChangeIsCompleted</find>
-      <find>onChangeText</find>
       <find>ref</find>
       <find>listTasks</find>
       <find>Context</find>
@@ -241,8 +239,13 @@
       <find>Task</find>
       <find>isViewText</find>
       <find>INIT_LOAD</find>
-      <find>any</find>
       <find>textArea</find>
+      <find>onChangeText</find>
+      <find>focus</find>
+      <find>index</find>
+      <find>event</find>
+      <find>editorState</find>
+      <find>any</find>
     </findStrings>
     <replaceStrings>
       <replace>tempListDays</replace>
@@ -294,11 +297,7 @@
         <option value="$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions" />
         <option value="$PROJECT_DIR$/src/components/TodoList/index.scss" />
         <option value="$PROJECT_DIR$/src/components/App/index.scss" />
-        <option value="$PROJECT_DIR$/src/components/DraftEditor/index.scss" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/src/actions/app.ts" />
-        <option value="$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx" />
-        <option value="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/src/models/task/ITask.ts" />
@@ -308,17 +307,21 @@
         <option value="$PROJECT_DIR$/src/models/calendarConfig/index.ts" />
         <option value="$PROJECT_DIR$/src/models/calendarConfig/ICalendarConfig.ts" />
         <option value="$PROJECT_DIR$/src/models/calendarConfig/CalendarConfigModel.ts" />
-        <option value="$PROJECT_DIR$/src/helpers/util.ts" />
         <option value="$PROJECT_DIR$/src/components/ContextMenu/index.scss" />
         <option value="$PROJECT_DIR$/src/components/ContextMenu/ContextMenu.tsx" />
         <option value="$PROJECT_DIR$/src/components/ModalWindow/index.scss" />
         <option value="$PROJECT_DIR$/src/sagas/app.ts" />
         <option value="$PROJECT_DIR$/src/api/index.ts" />
-        <option value="$PROJECT_DIR$/src/reducers/app.ts" />
         <option value="$PROJECT_DIR$/src/interfaces/INavBar.ts" />
+        <option value="$PROJECT_DIR$/src/components/DraftEditor/index.scss" />
+        <option value="$PROJECT_DIR$/src/components/TodoList/TodoList.tsx" />
         <option value="$PROJECT_DIR$/src/interfaces/index.ts" />
-        <option value="$PROJECT_DIR$/src/components/App/App.tsx" />
+        <option value="$PROJECT_DIR$/src/reducers/app.ts" />
+        <option value="$PROJECT_DIR$/src/actions/app.ts" />
         <option value="$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx" />
+        <option value="$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx" />
+        <option value="$PROJECT_DIR$/src/components/App/App.tsx" />
+        <option value="$PROJECT_DIR$/src/helpers/util.ts" />
       </list>
     </option>
   </component>
@@ -352,6 +355,12 @@
               <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
               <item name="Calendar" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="actions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Calendar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -379,6 +388,13 @@
               <item name="Calendar" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DraftEditor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Calendar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="ModalWindow" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -398,13 +414,14 @@
               <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
               <item name="Calendar" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
               <item name="Calendar" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="calendarConfig" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
@@ -412,6 +429,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="task" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Calendar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Calendar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="reducers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -480,16 +503,15 @@
       <workItem from="1564120189758" duration="24236000" />
       <workItem from="1564467423354" duration="302000" />
       <workItem from="1564467875619" duration="455000" />
-      <workItem from="1564469287280" duration="107451000" />
+      <workItem from="1564469287280" duration="122160000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="511701000" />
+    <option name="totallyTimeSpent" value="526410000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
       <window_info id="UI Designer" order="1" />
@@ -499,7 +521,7 @@
       <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.15458423" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="0" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="1" visible="true" weight="0.30985916" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="1" visible="true" weight="0.29469123" />
       <window_info anchor="bottom" id="TypeScript" order="2" />
       <window_info anchor="bottom" id="Database Changes" order="3" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
@@ -574,16 +596,6 @@
     <entry file="file://$PROJECT_DIR$/src/components/InlineToolbar/InlineToolbar.tsx" />
     <entry file="file://$PROJECT_DIR$/src/reducers/draftEditor.ts" />
     <entry file="file://$PROJECT_DIR$/src/actions/draftEditor.ts" />
-    <entry file="file://$PROJECT_DIR$/src/reducers/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@types/react/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
@@ -629,16 +641,6 @@
     <entry file="file://$PROJECT_DIR$/src/react-app-env.d.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ToolBarEditor/index.ts" />
     <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/index.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -682,20 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="83" column="19" selection-start-line="83" selection-start-column="19" selection-end-line="83" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/app.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -726,33 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/CalendarConfigModel.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
-          <folding>
-            <element signature="e#1#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/helpers/util.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="82" column="35" selection-start-line="82" selection-start-column="16" selection-end-line="82" selection-end-column="35" />
-          <folding>
-            <element signature="e#1#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/ICalendarConfig.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/index.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -777,13 +738,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/task/TaskModel.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -791,33 +745,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx">
+    <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/index.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3298">
-          <caret line="194" column="62" lean-forward="true" selection-start-line="194" selection-start-column="62" selection-end-line="194" selection-end-column="62" />
+        <state relative-caret-position="59">
+          <caret line="92" column="20" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/TodoList/TodoList.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="72" column="25" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/app.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actions/app.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="32" column="83" selection-start-line="32" selection-start-column="72" selection-end-line="32" selection-end-column="83" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TodoList/TodoList.tsx">
+    <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/ContextMenu.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-363">
-          <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+        <state relative-caret-position="-340">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ContextMenu/ContextMenu.tsx">
+    <entry file="file://$PROJECT_DIR$/src/components/DraftEditor/DraftEditor.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="238">
+          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/ICalendarConfig.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -828,46 +863,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/app.ts">
+    <entry file="file://$PROJECT_DIR$/src/models/calendarConfig/CalendarConfigModel.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="2" lean-forward="true" selection-start-line="16" selection-start-column="2" selection-end-line="29" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/interfaces/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="187">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/App/App.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="386" column="53" selection-start-line="386" selection-start-column="50" selection-end-line="386" selection-end-column="53" />
+        <state relative-caret-position="119">
+          <caret line="269" column="32" selection-start-line="269" selection-start-column="32" selection-end-line="269" selection-end-column="32" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
-            <element signature="e#5631#7371#0" />
+            <element signature="e#1884#2780#0" />
+            <element signature="e#4395#4649#0" />
+            <element signature="n#!!block;n#renderListTask#0;n#App#0" />
+            <element signature="e#5481#5573#0" />
             <element signature="e#9968#10423#0" />
+            <element signature="n#!!block;n#renderButton#0;n#App#0" />
             <element signature="e#12862#12978#0" />
             <element signature="e#13009#13478#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ModalWindow/ModalWindow.tsx">
+    <entry file="file://$PROJECT_DIR$/src/helpers/util.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+        <state relative-caret-position="501">
+          <caret line="91" column="1" lean-forward="true" selection-start-line="91" selection-start-column="1" selection-end-line="91" selection-end-column="1" />
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#1#80#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import {IReducer} from "../interfaces";
 
 const prefix = 'app/';
 

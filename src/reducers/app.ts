@@ -12,6 +12,7 @@ import {
   hideContextMenu,
   activeContextMenuDate
 } from '../actions/app'
+import {IAddTask, IState} from "../interfaces";
 
 const initialState = {
   listTasks: [],
@@ -30,12 +31,13 @@ const initialState = {
   isNewTask: true
 };
 
+
 Object.freeze(initialState);
 //@ts-ignore
 export default handleActions(
   {
     //@ts-ignore
-    [addTask]: (state, action) => {
+    [addTask]: (state: IState, action: IAddTask) => {
       const {daysWithTasks, listTasks, daysWithDoneTask} = action.payload;
 
       return {

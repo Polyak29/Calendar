@@ -2,18 +2,15 @@ import './index.scss';
 import 'draft-js/dist/Draft.css';
 import { Editor, RichUtils } from "draft-js";
 import * as React from 'react';
-import {
-  updateEditorState
-} from "../../actions/app";
-import {connect} from "react-redux";
+import {IStyleControls} from "../../interfaces";
 
 
 interface IProps {
   editorState: any,
-  updateEditorState: (arg: object) => void,
+  updateEditorState: (arg: any) => void,
 }
 
- class DraftEditor extends React.Component<IProps> {
+ export default class DraftEditor extends React.Component<IProps> {
   focus:any = () => {};
   onChange:any = () => {};
   handleKeyCommand:any = () => {};
@@ -27,19 +24,19 @@ interface IProps {
     this.focus = () => this.editor.current.focus();
     this.editor = React.createRef();
 
-    this.onChange = (editorState:any) => {
+    this.onChange = (editorState: any) => {
       const {updateEditorState} = this.props;
 
       updateEditorState(editorState)
     };
 
-    this.handleKeyCommand = (command:boolean) => this._handleKeyCommand(command);
-    this.onTab = (e:any) => this._onTab(e);
-    this.toggleBlockType = (type:any) => this._toggleBlockType(type);
-    this.toggleInlineStyle = (style:any) => this._toggleInlineStyle(style);
+    this.handleKeyCommand = (command: string) => this._handleKeyCommand(command);
+    this.onTab = (e: any) => this._onTab(e);
+    this.toggleBlockType = (type:  string) => this._toggleBlockType(type);
+    this.toggleInlineStyle = (style: string) => this._toggleInlineStyle(style);
   }
 
-  _handleKeyCommand(command:any) {
+  _handleKeyCommand(command: string) {
     const { editorState } = this.props;
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
@@ -55,7 +52,7 @@ interface IProps {
     this.onChange(RichUtils.onTab(e, this.props.editorState, maxDepth));
   }
 
-  _toggleBlockType(blockType:any) {
+  _toggleBlockType(blockType: string) {
     this.onChange(
       RichUtils.toggleBlockType(
         this.props.editorState,
@@ -64,7 +61,7 @@ interface IProps {
     );
   }
 
-  _toggleInlineStyle(inlineStyle:any) {
+  _toggleInlineStyle(inlineStyle: string) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.props.editorState,
@@ -77,6 +74,7 @@ interface IProps {
     const {editorState} = this.props;
     let className = 'RichEditor-editor';
     const contentState = editorState.getCurrentContent();
+
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' RichEditor-hidePlaceholder';
@@ -119,10 +117,13 @@ const styleMap = {
   },
 };
 
+//Функция для добавления стилей при нажатии на определенную кнопку. Можно сделать свои кнопки и стили
 function getBlockStyle(block:any) {
+
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
     default: return '';
+
   }
 }
 
@@ -137,7 +138,7 @@ const BLOCK_TYPES = [
   {label: 'OL', style: 'ordered-list-item', icon: 'fas fa-list-ol'},
 ];
 
-const BlockStyleControls = (props:any) => {
+const BlockStyleControls = (props: IStyleControls) => {
   const {editorState} = props;
   const selection = editorState.getSelection();
   const blockType = editorState
@@ -166,19 +167,18 @@ const BlockStyleControls = (props:any) => {
 };
 
 interface StyleBtn {
-  onToggle: (arg:any) => void;
+  onToggle: (arg:string) => void;
   style: string,
   active: boolean,
   label: string,
   icon: string
-
 }
 
 class StyleButton extends React.Component<StyleBtn> {
-  onToggle:any = () => {};
-  constructor(props:any) {
+  onToggle:(e: any) => void = () => {};
+  constructor(props: StyleBtn) {
     super(props);
-    this.onToggle = (e:any) => {
+    this.onToggle = (e) => {
       e.preventDefault();
 
       this.props.onToggle(this.props.style);
@@ -205,7 +205,8 @@ const INLINE_STYLES = [
   {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
 ];
 
-const InlineStyleControls = (props:any) => {
+const InlineStyleControls = (props: IStyleControls) => {
+  console.log(props);
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
     <div className="RichEditor-controls2">
@@ -223,13 +224,3 @@ const InlineStyleControls = (props:any) => {
     </div>
   );
 };
-
-const mapStateToProps = (state: any) => ({
-  editorState: state.app.editorState
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  updateEditorState: (data:object) => {dispatch(updateEditorState(data))}
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DraftEditor);

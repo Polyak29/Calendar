@@ -41,12 +41,12 @@ export default class TodoList extends React.Component<IProps> {
     onChangeIsCompleted(isCompleted, day, id)
   };
 
-  onContextMenu = (id:number, event:any) => {
+  onContextMenu = (id:number, event: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
     let data = {axisX:0, axisY:0, idTask:0};
     data.axisX = event.clientX;
     data.axisY = event.clientY;
     data.idTask = id;
-
+    console.log(typeof event);
     this.props.activeContextMenu(data);
     event.preventDefault();
 };

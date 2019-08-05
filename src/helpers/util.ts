@@ -73,10 +73,10 @@ export function dataTransfer(config:ICalendarConfig[]) {
 };
 
 export function configCurrentDay(array:ICalendarConfig[], currentDay: Date) {
-  if (currentDay && array) {
-    const config: ICalendarConfig = array.find( value => value.day === currentDay.toLocaleDateString()) || new CalendarConfigModel();
-    return config;
-  }
+    const config = array.find( value => value.day === currentDay.toLocaleDateString());
+    if (config) {
+      return config;
+    }
   return null;
 }
 

@@ -1,13 +1,13 @@
 import './index.scss';
 import * as React from "react";
-import {string} from "prop-types";
 import DraftEditor from "../DraftEditor/DraftEditor";
 import ICalendarConfig from "../../models/calendarConfig/ICalendarConfig";
 
 interface IProps {
   ListTasks:ICalendarConfig[],
-  onChangeText: (event:any) => void,
-  handleClickAddTask: (event:any) => void,
+  handleClickAddTask: () => void,
+  editorState: any,
+  updateEditorState: (arg: object) => void,
   isNewTask: boolean,
   isAddingTask: boolean,
 }
@@ -16,14 +16,13 @@ class ModalWindow extends React.Component<IProps> {
 
   static defaultProps: Partial<IProps> = {
     ListTasks: [],
-    onChangeText: () => string,
     handleClickAddTask: () => [],
     isAddingTask: false,
   };
 
 
   public render() {
-    const {isAddingTask, handleClickAddTask, isNewTask} = this.props;
+    const {isAddingTask, handleClickAddTask, isNewTask, updateEditorState, editorState} = this.props;
 
     if (!isAddingTask) {
       return null;
@@ -31,7 +30,7 @@ class ModalWindow extends React.Component<IProps> {
 
     return (
       <div className={'wrap-textArea'}>
-        <DraftEditor />
+        <DraftEditor updateEditorState={updateEditorState} editorState={editorState} />
           {/*<div className={'button-time'} onClick={handleClickAddTask} >*/}
           {/*  <p className={'button-time__title'}>Укажите время</p>*/}
           {/*</div>*/}

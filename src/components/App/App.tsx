@@ -31,13 +31,15 @@ import {
   saveData,
   activeContextMenu,
   hideContextMenu,
-  activeContextMenuDate
+  activeContextMenuDate,
+  updateEditorState
 } from "../../actions/app";
 import { connect } from "react-redux";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import TaskModel from "../../models/task/TaskModel";
 import CalendarConfigModel from "../../models/calendarConfig/CalendarConfigModel";
-import {INavBar} from "../../interfaces";
+import {IDayClick, IEditTask, IMapState, INavBar,} from "../../interfaces";
+import {Action, Dispatch} from "redux";
 
 interface IProps {
   isViewText: boolean,
@@ -60,6 +62,7 @@ interface IProps {
   hideContextMenu: (arg:boolean) => void,
   activeContextMenu: (data: object) => void,
   activeContextMenuDate: (data: object) => void,
+  updateEditorState: (arg: object) => void,
   saveData: (data: object) => void,
   axisX: number,
   axisY: number,
@@ -84,13 +87,9 @@ class App extends React.Component<IProps> {
     const { dayIsSelected, selectedDay, selectDay, isAddingTask } = this.props;
     let tempSelectedDay = deepClone(selectedDay);
     let tempDayIsSelected = dayIsSelected;
-    let data: {
-      selectedDay?: Date,
-      dayIsSelected: boolean,
-      isAddingTask: boolean
-    } = {
+    let data: IDayClick = {
       dayIsSelected: false,
-      selectedDay: undefined,
+      selectedDay: new Date(),
       isAddingTask: false
     };
 
@@ -120,12 +119,9 @@ class App extends React.Component<IProps> {
     const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
     const tempDaysWithDoneTask: Date[] = deepClone(daysWithDoneTask);
 
-    const date = stringTransformDate(day);
+    const date: Date = stringTransformDate(day);
     const currentDay: ICalendarConfig = configCurrentDay(tempListTasks, selectedDay)|| new CalendarConfigModel();
-    let data: {
-      listTasks: ICalendarConfig[],
-      daysWithDoneTask: Date[]
-    } =
+    let data: { listTasks: ICalendarConfig[], daysWithDoneTask: Date[] } =
       {
         listTasks: [],
         daysWithDoneTask: []
@@ -141,8 +137,8 @@ class App extends React.Component<IProps> {
       }
     });
 
-    const taskNotCompleted = currentDay.tasks.filter((value: ITask) => !value.isCompleted);
-    const indexDay = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
+    const taskNotCompleted: ITask[] = currentDay.tasks.filter((value: ITask) => !value.isCompleted);
+    const indexDay: number = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
 
     if (taskNotCompleted.length === 0) {
       currentDay.isCompleted = true;
@@ -161,7 +157,7 @@ class App extends React.Component<IProps> {
     }
     data.listTasks = tempListTasks;
     data.daysWithDoneTask = tempDaysWithDoneTask;
-    console.log(data);
+
     onChangeIsCompleted(data);
     saveData(data);
 
@@ -179,20 +175,21 @@ class App extends React.Component<IProps> {
 
   renderListTask() {
     const { listTasks, selectedDay, contextMenuIsVisible, activeContextMenu } = this.props;
+    const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
 
     if (selectedDay === null) {
       return null;
     }
 
-    const element = listTasks.find(value => value.day === selectedDay.toLocaleDateString());
+    const currentDay: ICalendarConfig = configCurrentDay(tempListTasks, selectedDay)|| new CalendarConfigModel();
 
-    if (element) {
-      if (element.tasks.length > 0) {
+    if (currentDay) {
+      if (currentDay.tasks.length > 0) {
         return <TodoList
           handleClickRemoveTask={this.handleClickRemoveTask}
-          key={+this.idOfDate(element.day)}
-          day={element.day}
-          tasksOnDay={element.tasks}
+          key={+this.idOfDate(currentDay.day)}
+          day={currentDay.day}
+          tasksOnDay={currentDay.tasks}
           onChangeIsCompleted={this.onChangeIsCompleted}
           contextMenuIsVisible={contextMenuIsVisible}
           activeContextMenu={activeContextMenu}
@@ -215,25 +212,12 @@ class App extends React.Component<IProps> {
     const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
     const tempDaysWithDoneTask: Date[] = deepClone(daysWithDoneTask);
 
-    const currentDay = tempListTasks.find((value: ICalendarConfig) => value.day === day);
+    const currentDay: ICalendarConfig = configCurrentDay(tempListTasks, selectedDay)|| new CalendarConfigModel();
 
-    if (!currentDay){
-      return null;
-    }
-
-    const currentTask = currentDay.tasks.find((value: ITask) => value.id === id);
-
-    if (!currentTask){
-      return null;
-    }
-
+    const currentTask: ITask = currentDay.tasks.find((value: ITask) => value.id === id) || new TaskModel();
     const indexTask: number = currentDay.tasks.indexOf(currentTask);
-    const taskCompletedLength: number = currentDay.tasks.filter((value: ITask) => value.isCompleted === true).length;
-    let data: {
-      listTasks: ICalendarConfig[],
-      daysWithTasks: Date[],
-      daysWithDoneTask: Date[]
-    } = {
+    const tasksNotCompleted: ITask[] = currentDay.tasks.filter(value => !value.isCompleted);
+    let data: IEditTask = {
       listTasks: [],
       daysWithTasks: [],
       daysWithDoneTask: []
@@ -241,24 +225,21 @@ class App extends React.Component<IProps> {
 
     currentDay.tasks.splice(indexTask, 1);
 
-    if (currentDay.tasks.length === 0) {
-      currentDay.isCompleted = false;
-
-      const index: number = getIndexDayWithTask(tempDaysWithTask, selectedDay);
-
-      tempDaysWithTask.splice(index, 1);
-
-      const index2 = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
-
-      if (index2 !== -1) {
-        tempDaysWithDoneTask.splice(index2, 1);
-      }
-      tempListTasks.splice(index, 1);
+    if (tasksNotCompleted.length === 0) {
+      tempDaysWithDoneTask.push(selectedDay);
+      currentDay.isCompleted = true;
     } else {
-      if (currentDay.tasks.length === taskCompletedLength) {
-        currentDay.isCompleted = true;
-        tempDaysWithDoneTask.push(selectedDay);
-      }
+      const indexDoneTask: number = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
+
+      tempDaysWithDoneTask.splice(indexDoneTask, 1);
+      currentDay.isCompleted = false;
+    }
+
+    if (currentDay.tasks.length === 0) {
+      const indexTask: number = getIndexDayWithTask(tempDaysWithTask, selectedDay);
+
+      tempDaysWithTask.splice(indexTask, 1);
+      currentDay.isCompleted = false;
     }
 
     data.listTasks = tempListTasks;
@@ -271,14 +252,10 @@ class App extends React.Component<IProps> {
 
   handleClickAddTask = () => {
     const { addTask, selectedDay, daysWithTasks, listTasks, daysWithDoneTask, saveData, editorState, idTask } = this.props;
-    const tempDaysWithTask = deepClone(daysWithTasks);
-    const tempListTasks = deepClone(listTasks);
-    const tempDaysWithDoneTask = deepClone(daysWithDoneTask);
-    let data: {
-      daysWithTasks: Date[],
-      daysWithDoneTask: Date[],
-      listTasks: ICalendarConfig[],
-    } = {
+    const tempDaysWithTask: Date[] = deepClone(daysWithTasks);
+    const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
+    const tempDaysWithDoneTask: Date[] = deepClone(daysWithDoneTask);
+    let data: IEditTask = {
       daysWithTasks: [],
       listTasks: [],
       daysWithDoneTask: []
@@ -287,8 +264,8 @@ class App extends React.Component<IProps> {
     if (editorState.getCurrentContent().getPlainText().length === 0) {
       return null;
     }
-    const currentDay = tempListTasks.find((value: ICalendarConfig) => value.day === selectedDay.toLocaleDateString());
-
+    const currentDay = configCurrentDay(tempListTasks, selectedDay);
+    console.log(selectedDay);
       if (!currentDay) {
         tempListTasks.push({
           day: selectedDay.toLocaleDateString(),
@@ -300,9 +277,9 @@ class App extends React.Component<IProps> {
             taskForEdit: convertToRaw(editorState.getCurrentContent())
           }]
         });
-        const index = getIndexDayWithTask(tempDaysWithTask, selectedDay);
+        const indexTask: number = getIndexDayWithTask(tempDaysWithTask, selectedDay);
 
-        if (index === -1) {
+        if (indexTask === -1) {
           tempDaysWithTask.push(selectedDay);
         }
       }
@@ -324,16 +301,16 @@ class App extends React.Component<IProps> {
         if (currentDay.tasks.length !== lengthTasksCompleted) {
           currentDay.isCompleted = false;
 
-          const index = getIndexDayWithTask(tempDaysWithTask, selectedDay);
+          const indexTask: number = getIndexDayWithTask(tempDaysWithTask, selectedDay);
 
-          if (index === -1) {
+          if (indexTask === -1) {
             tempDaysWithTask.push(selectedDay);
           }
 
-          const index2 = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
+          const indexDoneTask: number = getIndexDayWithTask(tempDaysWithDoneTask, selectedDay);
 
-          if (index2 !== -1) {
-            tempDaysWithDoneTask.splice(index2, 1);
+          if (indexDoneTask !== -1) {
+            tempDaysWithDoneTask.splice(indexDoneTask, 1);
           }
         }
       }
@@ -406,17 +383,15 @@ class App extends React.Component<IProps> {
 
   renderContainerForViewText() {
     const { isViewText, listTasks, idTask, selectedDay, hideContextMenu } = this.props;
-    const currentDay = configCurrentDay(listTasks, selectedDay);
+    const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
+
+    const currentDay: ICalendarConfig = configCurrentDay(tempListTasks, selectedDay) || new CalendarConfigModel();
 
     if (!currentDay) {
       return null;
     }
 
     const task: ITask = currentDay.tasks.find(value => value.id === idTask) || new TaskModel();
-
-    if (!task) {
-      return null;
-    }
 
     if (isViewText) {
       return <React.Fragment>
@@ -447,7 +422,9 @@ class App extends React.Component<IProps> {
       axisY,
       hideContextMenu,
       idTask,
-      isClickOnDay
+      isClickOnDay,
+      updateEditorState,
+      editorState
     } = this.props;
 
     const currentDay: ICalendarConfig = configCurrentDay(listTasks, selectedDay) || new CalendarConfigModel();
@@ -514,6 +491,8 @@ class App extends React.Component<IProps> {
           ListTasks={listTasks}
           handleClickAddTask={this.handleClickAddTask}
           isNewTask={isNewTask}
+          updateEditorState={updateEditorState}
+          editorState={editorState}
         />
       </div>
     </React.Fragment>;
@@ -550,7 +529,7 @@ function NavBar({
   </div>;
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IMapState) => ({
   listTasks: state.app.listTasks,
   dayIsSelected: state.app.dayIsSelected,
   isAddingTask: state.app.isAddingTask,
@@ -567,17 +546,20 @@ const mapStateToProps = (state: any) => ({
   isClickOnDay: state.app.isClickOnDay,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  addTask: (data: object) => { dispatch(addTask(data)) },
-  selectDay: (data: object) => dispatch(selectDay(data)),
-  openTextEdit: (data: object) => dispatch(openTextEdit(data)),
-  onChangeIsCompleted: (data: object) => dispatch(onChangeIsCompleted(data)),
-  removeTask: (data: object) => dispatch(removeTask(data)),
-  initLoad: () => dispatch(initLoad()),
-  saveData: (data: object) => dispatch(saveData(data)),
-  activeContextMenuDate: (data: object) => dispatch(activeContextMenuDate(data)),
-  activeContextMenu: (data: object) => dispatch(activeContextMenu(data)),
-  hideContextMenu: (data: boolean) => dispatch(hideContextMenu(data)),
-});
+const mapDispatchToProps = (dispatch: (action: Action) => void) => {
+  return{
+    addTask: (data: object) => { dispatch(addTask(data)) },
+    selectDay: (data: object) => dispatch(selectDay(data)),
+    openTextEdit: (data: object) => dispatch(openTextEdit(data)),
+    onChangeIsCompleted: (data: object) => dispatch(onChangeIsCompleted(data)),
+    removeTask: (data: object) => dispatch(removeTask(data)),
+    initLoad: () => dispatch(initLoad()),
+    saveData: (data: object) => dispatch(saveData(data)),
+    activeContextMenuDate: (data: object) => dispatch(activeContextMenuDate(data)),
+    activeContextMenu: (data: object) => dispatch(activeContextMenu(data)),
+    hideContextMenu: (data: boolean) => dispatch(hideContextMenu(data)),
+    updateEditorState: (data:object) => {dispatch(updateEditorState(data))}
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
