@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions';
-import {IReducer} from "../interfaces";
 
 const prefix = 'app/';
 
@@ -12,7 +11,7 @@ export const updateEditorState = createAction(prefix + 'UPDATE_EDITOR_STATE');
 export const activeContextMenu = createAction(prefix + 'ACTIVE_CONTEXT_MENU');
 export const hideContextMenu = createAction(prefix + 'HIDE_CONTEXT_MENU');
 export const activeContextMenuDate = createAction(prefix + 'ACTIVE_CONTEXT_MENU_DATE');
-
+export const addTimeForTask =  createAction( prefix + 'ADD_TIME_FOR_TASK');
 export const fetchConfig = createAction(prefix + 'FETCH_CONFIG');
 export const initLoad = createAction(prefix + 'INIT_LOAD');
 export const saveData = createAction(prefix + 'SAVE_DATA');

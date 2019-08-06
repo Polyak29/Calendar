@@ -1,24 +1,17 @@
 import './index.scss';
 import * as React from 'react';
-import DayPicker from 'react-day-picker';
-import 'moment/locale/ru';
-import 'react-day-picker/lib/style.css';
+
 import {
   deepClone,
   randomNumber,
-  stylingCalendar,
   stringTransformDate,
   configCurrentDay,
   getIndexDayWithTask
 } from "../../helpers/util";
-import ICalendarConfig from "../../models/calendarConfig/ICalendarConfig";
-import ITask from "../../models/task/ITask";
 
 
-import MomentLocaleUtils from 'react-day-picker/moment';
 import ModalWindow from "../ModalWindow";
 import TodoList from '../TodoList';
-import Helmet from "react-helmet";
 import {convertFromRaw, convertToRaw, EditorState} from 'draft-js'
 
 import {
@@ -32,14 +25,16 @@ import {
   activeContextMenu,
   hideContextMenu,
   activeContextMenuDate,
-  updateEditorState
+  updateEditorState,
+  addTimeForTask,
 } from "../../actions/app";
 import { connect } from "react-redux";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import TaskModel from "../../models/task/TaskModel";
 import CalendarConfigModel from "../../models/calendarConfig/CalendarConfigModel";
-import {IDayClick, IEditTask, IMapState, INavBar,} from "../../interfaces";
-import {Action, Dispatch} from "redux";
+import ITask, {ICalendarConfig, IDayClick, IEditTask, IMapState } from "../../interfaces";
+import {Action} from "redux";
+import Calendar from "../Calendar/Calendar";
 
 interface IProps {
   isViewText: boolean,
@@ -59,6 +54,7 @@ interface IProps {
   onChangeIsCompleted: (arg: object) => void,
   removeTask: (arg: object) => void,
   initLoad: () => void,
+  addTimeForTask: (arg: string) => void,
   hideContextMenu: (arg:boolean) => void,
   activeContextMenu: (data: object) => void,
   activeContextMenuDate: (data: object) => void,
@@ -66,7 +62,8 @@ interface IProps {
   saveData: (data: object) => void,
   axisX: number,
   axisY: number,
-  isClickOnDay: boolean
+  isClickOnDay: boolean,
+  time: string
 }
 
 
@@ -251,7 +248,7 @@ class App extends React.Component<IProps> {
   };
 
   handleClickAddTask = () => {
-    const { addTask, selectedDay, daysWithTasks, listTasks, daysWithDoneTask, saveData, editorState, idTask } = this.props;
+    const { addTask, selectedDay, daysWithTasks, listTasks, daysWithDoneTask, saveData, editorState, idTask, time } = this.props;
     const tempDaysWithTask: Date[] = deepClone(daysWithTasks);
     const tempListTasks: ICalendarConfig[] = deepClone(listTasks);
     const tempDaysWithDoneTask: Date[] = deepClone(daysWithDoneTask);
@@ -265,7 +262,7 @@ class App extends React.Component<IProps> {
       return null;
     }
     const currentDay = configCurrentDay(tempListTasks, selectedDay);
-    console.log(selectedDay);
+
       if (!currentDay) {
         tempListTasks.push({
           day: selectedDay.toLocaleDateString(),
@@ -274,7 +271,8 @@ class App extends React.Component<IProps> {
             content: editorState.getCurrentContent().getPlainText(),
             id: randomNumber(),
             isCompleted: false,
-            taskForEdit: convertToRaw(editorState.getCurrentContent())
+            taskForEdit: convertToRaw(editorState.getCurrentContent()),
+            time: time
           }]
         });
         const indexTask: number = getIndexDayWithTask(tempDaysWithTask, selectedDay);
@@ -290,7 +288,8 @@ class App extends React.Component<IProps> {
             content: editorState.getCurrentContent().getPlainText(),
             id: randomNumber(),
             isCompleted: false,
-            taskForEdit: convertToRaw(editorState.getCurrentContent())
+            taskForEdit: convertToRaw(editorState.getCurrentContent()),
+            time: time
           });
         } else {
           currentTask.content = editorState.getCurrentContent().getPlainText()
@@ -424,40 +423,17 @@ class App extends React.Component<IProps> {
       idTask,
       isClickOnDay,
       updateEditorState,
-      editorState
+      editorState,
+      addTimeForTask,
+      time
     } = this.props;
 
     const currentDay: ICalendarConfig = configCurrentDay(listTasks, selectedDay) || new CalendarConfigModel();
     const tasksOnDay = currentDay.tasks;
 
-    const modifiers = {
-      daysWithTasks: daysWithTasks,
-      selectedDay: selectedDay,
-      daysWithDoneTask: daysWithDoneTask
-    };
-
-    const modifiersStyles = {
-      daysWithTasks: {
-        boxShadow: 'none',
-        background: `linear-gradient(0deg, rgba(63,94,251,1) ${0}%, rgba(252,70,211,0.5) ${0}%)`
-      },
-      selectedDay: {
-        boxShadow: 'inset 0px 36px 4px 17px white',
-        backgroundColor: 'inherit',
-        color: '#ae88ea',
-      },
-      daysWithDoneTask: {
-        boxShadow: 'none',
-        background: `linear-gradient(0deg, rgba(63,94,251,1) ${100}%, rgba(252,70,211,0.5) ${100}%)`
-      }
-    };
-
     return <React.Fragment>
       {this.renderModalBackground()}
       <div className={'wrap'} >
-        <Helmet>
-          <style>{stylingCalendar()}</style>
-        </Helmet>
         {contextMenuIsVisible ? <ContextMenu
           tasksOnDay={tasksOnDay}
           day={selectedDay.toLocaleDateString()}
@@ -471,22 +447,19 @@ class App extends React.Component<IProps> {
           isClickOnDay={isClickOnDay}
           handleClickOpenTextEdit={this.handleClickOpenTextEdit}
         /> : null}
-        <DayPicker
-          fixedWeeks
-          localeUtils={MomentLocaleUtils}
-          locale={'Ru'}
-          className={'calendar'}
+        <Calendar
           onDayClick={this.handleDayClick}
-          selectedDays={selectedDay}
-          modifiers={modifiers}
-          modifiersStyles={modifiersStyles}
-          navbarElement={<NavBar onNextClick={() => {}} className={''} onPreviousClick={() =>{}} />}
+          selectedDay={selectedDay}
           onContextMenu={this.onContextMenu}
+          daysWithTasks={daysWithTasks}
+          daysWithDoneTask={daysWithDoneTask}
         />
         {this.renderContainerForViewText()}
         {this.renderListTask()}
         {this.renderButton()}
         <ModalWindow
+          time={time}
+          addTimeForTask={addTimeForTask}
           isAddingTask={isAddingTask}
           ListTasks={listTasks}
           handleClickAddTask={this.handleClickAddTask}
@@ -497,36 +470,6 @@ class App extends React.Component<IProps> {
       </div>
     </React.Fragment>;
   }
-}
-
-function NavBar({
-                  onPreviousClick,
-                  onNextClick,
-                  className,
-                }: INavBar) {
-
-  const styleLeft: object = {
-    position: 'absolute',
-    top: '18px',
-    left: '30px',
-    fontSize: '15px',
-    cursor: 'pointer'
-  };
-  const styleRight: object = {
-    position: 'absolute',
-    top: '18px',
-    right: '30px',
-    fontSize: '15px',
-    cursor: 'pointer'
-  };
-  return <div className={className}>
-    <div style={styleLeft} onClick={() => onPreviousClick()}>
-      <i className="fas fa-chevron-left"/>
-    </div>
-    <div style={styleRight} onClick={() => onNextClick()}>
-      <i className="fas fa-chevron-right"/>
-    </div>
-  </div>;
 }
 
 const mapStateToProps = (state: IMapState) => ({
@@ -544,6 +487,7 @@ const mapStateToProps = (state: IMapState) => ({
   axisX: state.app.axisX,
   axisY: state.app.axisY,
   isClickOnDay: state.app.isClickOnDay,
+  time: state.app.time
 });
 
 const mapDispatchToProps = (dispatch: (action: Action) => void) => {
@@ -558,7 +502,8 @@ const mapDispatchToProps = (dispatch: (action: Action) => void) => {
     activeContextMenuDate: (data: object) => dispatch(activeContextMenuDate(data)),
     activeContextMenu: (data: object) => dispatch(activeContextMenu(data)),
     hideContextMenu: (data: boolean) => dispatch(hideContextMenu(data)),
-    updateEditorState: (data:object) => {dispatch(updateEditorState(data))}
+    updateEditorState: (data:object) => {dispatch(updateEditorState(data))},
+    addTimeForTask: (data:string) => {dispatch(addTimeForTask(data))}
   }
 };
 

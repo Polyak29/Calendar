@@ -54,9 +54,18 @@
 
   }
 
+  &__time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-family: Colus, sans-serif;
+    margin: 4px;
+  }
+
   &__content {
     flex: 4 0 0;
-    margin: 15px;
+    margin: 15px 15px 15px 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

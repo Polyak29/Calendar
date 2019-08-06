@@ -10,11 +10,12 @@ import {
   fetchConfig,
   activeContextMenu,
   hideContextMenu,
-  activeContextMenuDate
+  activeContextMenuDate,
+  addTimeForTask
 } from '../actions/app'
 import {IAddTask, IState} from "../interfaces";
 
-const initialState = {
+const initialState: IState = {
   listTasks: [],
   isClickOnDay: false,
   contextMenuIsVisible: false,
@@ -24,16 +25,18 @@ const initialState = {
   daysWithDoneTask: [],
   daysWithTasks: [],
   selectedDay: new Date(),
-  editorState: EditorState.createEmpty(),
+  editorState: EditorState,
   axisX: 0,
   axisY: 0,
   idTask: 0,
-  isNewTask: true
+  isNewTask: true,
+  time: ''
 };
 
 
 Object.freeze(initialState);
-//@ts-ignore
+
+
 export default handleActions(
   {
     //@ts-ignore
@@ -151,6 +154,13 @@ export default handleActions(
         isNewTask: true
       }
     },
+    //@ts-ignore
+    [addTimeForTask]: (state, action) => {
+      return {
+      ...state,
+      time: action.payload
+    }
+    }
   },
   initialState
 )

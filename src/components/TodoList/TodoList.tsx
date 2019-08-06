@@ -1,26 +1,17 @@
 import * as React from "react";
 import './index.scss';
-import ContextMenu from "../ContextMenu";
+import ITask from "../../interfaces";
 
 interface IProps {
   contextMenuIsVisible: boolean,
   day: string,
-  tasksOnDay:{
-    id: number,
-    content: string,
-    isCompleted: boolean,
-    taskForEdit: object
-  }[],
+  tasksOnDay:ITask[],
   onChangeIsCompleted: (isCompleted:boolean, day:string, id:number) => void,
   handleClickRemoveTask: (day:string, id:number) => void,
   activeContextMenu: (data: object) => void,
   openTextEditor: (arg: number) => void
 }
 
-interface IState {
-  idTask: number,
-  styleInput:{}
-}
 export default class TodoList extends React.Component<IProps> {
 
   static defaultProps: Partial<IProps> = {
@@ -28,11 +19,6 @@ export default class TodoList extends React.Component<IProps> {
     tasksOnDay: [],
     onChangeIsCompleted: () => {},
     handleClickRemoveTask: () => {}
-  };
-
-  public state: IState = {
-    idTask: NaN,
-    styleInput: {}
   };
 
   onChangeCheckBox = (isCompleted:boolean, id: number) => {
@@ -67,13 +53,16 @@ export default class TodoList extends React.Component<IProps> {
           <div
             className={'task'}
             key={value.id}
-
           >
             <div className={'task__icon'}
                  onClick={this.onChangeCheckBox.bind(this, value.isCompleted, value.id)}
                  style={value.isCompleted ? styleIcon : {}}
             >
               <i className="fas fa-check" />
+            </div>
+            <div className={'task__time'}>
+              {value.time}
+              {/*style={value.isCompleted ? styleContent : {}}*/}
             </div>
             <p className={'task__content'}
                onClick={this.onChangeCheckBox.bind(this, value.isCompleted, value.id)}

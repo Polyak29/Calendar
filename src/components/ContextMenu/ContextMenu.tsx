@@ -1,6 +1,7 @@
 import * as React from "react";
 import './index.scss';
-import ITask from "../../models/task/ITask";
+import ITask from "../../interfaces";
+
 
 interface IProps {
   idTask: number,

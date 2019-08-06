@@ -2,7 +2,7 @@ import './index.scss';
 import 'draft-js/dist/Draft.css';
 import { Editor, RichUtils } from "draft-js";
 import * as React from 'react';
-import {IStyleControls} from "../../interfaces";
+import {IStyleControls, StyleBtn} from "../../interfaces";
 
 
 interface IProps {
@@ -165,14 +165,6 @@ const BlockStyleControls = (props: IStyleControls) => {
     </div>
   );
 };
-
-interface StyleBtn {
-  onToggle: (arg:string) => void;
-  style: string,
-  active: boolean,
-  label: string,
-  icon: string
-}
 
 class StyleButton extends React.Component<StyleBtn> {
   onToggle:(e: any) => void = () => {};

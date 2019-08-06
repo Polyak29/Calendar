@@ -1,5 +1,4 @@
-import ITask from "../task/ITask";
-import ICalendarConfig from "./ICalendarConfig";
+import ITask, {ICalendarConfig} from "../../interfaces";
 
 export default class CalendarConfigModel implements  ICalendarConfig{
   day: string = '';

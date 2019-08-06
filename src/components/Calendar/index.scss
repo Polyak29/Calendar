@@ -1,0 +1,118 @@
+@mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65,0,.076,1)) {
+  transition: $property $duration $ease;
+}
+
+.DayPicker {
+  font-family: Colus, sans-serif;
+  outline: none;
+  min-width: 372px;
+  width: 374px;
+  flex-flow: column nowrap;
+
+  &-NavBar {
+    position: relative;
+  }
+
+  &-Caption {
+    text-align: center!important;
+  }
+
+  &-Weekday {
+    color: black!important;
+  }
+
+  &-NavButton {
+    outline: none;
+  }
+
+  &-Months {
+    outline: none;
+  }
+
+  &-wrapper {
+    border-radius: 19px;
+    background: radial-gradient(circle farthest-corner at 50px 50px, #a8e3e9, #af7eeb);
+    outline: none;
+    &::before {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 350px;
+      height: 49px;
+      margin: auto;
+      opacity: 0.4;
+      left: 0;
+      right: 0;
+      border-radius: 58px;
+      top: 349px;
+      background: #ae90ea;
+    }
+
+    &::after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 322px;
+      height: 57px;
+      margin: auto;
+      opacity: 0.3;
+      left: 0;
+      right: 0;
+      border-radius: 58px;
+      top: 349px;
+      background: #ae90ea;
+    }
+
+  }
+
+  &-Body {
+    background: inherit;
+  }
+
+  &-Week {
+    background-color: inherit;
+  }
+
+  &-Day {
+    flex-flow: column;
+
+    &--selected {
+      box-sizing: border-box;
+      @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
+    }
+
+    &:focus {
+      outline: none;
+    }
+    &--outside {
+      color: #8B9898!important;
+      cursor: default;
+    }
+
+    &--today {
+      color: red!important;
+    }
+    &--daysWithTask {
+      border-radius: 10px!important;
+      @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
+
+      &:hover {
+        box-shadow: inset 0 36px 4px 17px white!important;
+        color: #986ccb;
+      }
+
+      &--daysWithDoneTask{
+        &:hover {
+          box-shadow: inset 0 36px 4px 17px white!important;
+          color: #986ccb;
+        }
+      }
+    }
+
+    &:hover {
+      background-color: inherit!important;
+      box-shadow: inset 0 0 14px white;
+    }
+
+  }
+}

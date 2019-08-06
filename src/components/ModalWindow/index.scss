@@ -11,25 +11,18 @@
   position: relative;
 }
 
-//.container {
-//  box-sizing: border-box;
-//  border: none;
-//  border-radius: 3px;
-//  resize: none;
-//  font-size: 20px;
-//  line-height: 24px;
-//  overflow: auto;
-//  height: auto;
-//  width: 94%;
-//
-//  &:focus {
-//    outline: none;
-//  }
-//
-//  &:hover .control {
-//    visibility: visible;
-//  }
-//}
+.wrap-time {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    background: #e3e9ff;
+    width: 374px;
+    box-shadow: 0 4px 10px -8px black;
+    padding-top: 10px;
+    border-radius: 19px;
+    position: relative;
+}
 
 .button-add {
   display: flex;

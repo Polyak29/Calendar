@@ -1,7 +1,3 @@
-import {EditorState} from "draft-js";
-import ICalendarConfig from "../models/calendarConfig/ICalendarConfig";
-
-
 export interface INavBar {
   onPreviousClick: () => void,
   onNextClick: () => void,
@@ -28,19 +24,20 @@ export interface IDayClick {
 
 export interface IState {
   listTasks: ICalendarConfig[],
-  isClickOnDay: false,
-  contextMenuIsVisible: false,
-  isViewText: false,
-  dayIsSelected: true,
-  isAddingTask: false,
+  isClickOnDay: boolean,
+  contextMenuIsVisible: boolean,
+  isViewText: boolean,
+  dayIsSelected: boolean,
+  isAddingTask: boolean,
   daysWithDoneTask: Date[],
   daysWithTasks: Date[],
   selectedDay: Date,
   editorState: any,
-  axisX: 0,
-  axisY: 0,
-  idTask: 0,
-  isNewTask: true
+  axisX: number,
+  axisY: number,
+  idTask: number,
+  isNewTask: boolean,
+  time: string
 }
 
 export interface IAddTask {
@@ -54,22 +51,45 @@ export interface IAddTask {
 export interface IMapState {
   app:{
     listTasks: ICalendarConfig[],
-    isClickOnDay: false,
-    contextMenuIsVisible: false,
-    isViewText: false,
-    dayIsSelected: true,
-    isAddingTask: false,
+    isClickOnDay: boolean,
+    contextMenuIsVisible: boolean,
+    isViewText: boolean,
+    dayIsSelected: boolean,
+    isAddingTask: boolean,
     daysWithDoneTask: Date[],
     daysWithTasks: Date[],
     selectedDay: Date,
     editorState: any,
-    axisX: 0,
-    axisY: 0,
-    idTask: 0,
-    isNewTask: true
+    axisX: number,
+    axisY: number,
+    idTask: number,
+    isNewTask: boolean
+    time: string
   }
 }
 
 export interface IReducer {
   type: string
+}
+
+export interface StyleBtn {
+  onToggle: (arg:string) => void;
+  style: string,
+  active: boolean,
+  label: string,
+  icon: string
+}
+
+export interface ICalendarConfig {
+  day: string,
+  tasks: ITask[],
+  isCompleted: boolean,
+}
+
+export default interface ITask {
+  id: number,
+  content: string,
+  isCompleted: boolean,
+  taskForEdit: any,
+  time: string
 }

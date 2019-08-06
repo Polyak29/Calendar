@@ -1,5 +1,5 @@
-import CalendarConfigModel from "../models/calendarConfig/CalendarConfigModel";
-import ICalendarConfig from "../models/calendarConfig/ICalendarConfig";
+import {ICalendarConfig} from "../interfaces";
+
 
 const cloneDeep = require('lodash.clonedeep');
 export function deepClone(data: any) {
