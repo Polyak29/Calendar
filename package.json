@@ -17,7 +17,7 @@
     "draft-js-plugins-editor": "^2.1.1",
     "immutable": "^4.0.0-rc.12",
     "lodash.clonedeep": "^4.5.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "npm-api": "^1.0.0",
     "react-calendar": "^2.19.0",
     "react-helmet": "^5.2.1",
